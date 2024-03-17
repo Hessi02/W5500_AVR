@@ -1,10 +1,7 @@
-set(INC_DIR "include")
-set(SRC_DIR "src")
-
-file(GLOB INCLUDE_FILES CONFIGURE_DEPENDS "${INC_DIR}/*.h"   "${SRC_DIR}/*.h" 
-                                          "${INC_DIR}/*.hpp" "${SRC_DIR}/*.hpp" 
-                                          "${INC_DIR}/*.c"   "${SRC_DIR}/*.c" 
-                                          "${INC_DIR}/*.cpp" "${SRC_DIR}/*.cpp")
+file(GLOB INCLUDE_FILES CONFIGURE_DEPENDS "include/*.h"   "src/*.h" 
+                                          "include/*.hpp" "src/*.hpp" 
+                                          "include/*.c"   "src/*.c" 
+                                          "include/*.cpp" "src/*.cpp")
 
 add_library(W5500_AVR ${INCLUDE_FILES})
 

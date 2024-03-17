@@ -10,8 +10,11 @@
 #ifndef __W5500_HP__
 #define __W5500_HP__
 
+/**
+ *  \namespace  W5500 
+ *  \brief      The namespace contains the W5500 TCP functionality.
+ */
 namespace W5500
-{
-};
+{};
 
 #endif //__W5500_HP__

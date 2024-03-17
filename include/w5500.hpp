@@ -1,5 +1,5 @@
 /**
- *  \file   w500.hpp
+ *  \file   w5500.hpp
  *  \brief  This is the include file for the W5500_ARV library.
  * 
  *  Include this file to use the library in your project. Make sure

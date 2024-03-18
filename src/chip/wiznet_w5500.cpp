@@ -7,14 +7,23 @@
 
 #include "spi.hpp"
 
-W5500::W5500(void)
+W5500::W5500(
+	const unsigned char* macAddress,
+	const unsigned char* gatewayIPv4Address,
+	const unsigned char* subnetMask,
+	const unsigned char* sourceIPv4Address)
 {
 	SPI::init();
 	reset();
 	initPHY();
+
+	setSourceHardwareAddress(macAddress);
+	setGatewayAddress(gatewayIPv4Address); 
+	setSubnetMaskAddress(subnetMask);
+	setSourceIPAddress(sourceIPv4Address);
 }
 
-bool W5500::verify(void)
+bool W5500::verify(void) const
 {
 	constexpr uint16_t VERSIONNRRegisterAddress = 0x0039;
 	constexpr uint8_t byteCount = 1;

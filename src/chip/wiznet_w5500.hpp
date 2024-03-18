@@ -19,18 +19,27 @@ class W5500
 {
 public:
 	/**
-	 * 	\fn		W5500(void)
-	 * 	\brief	The constructor initializes an instance of type 'W5500'.
+	 * 	\fn			W5500(void)
+	 * 	\brief		The constructor initializes an instance of type 'W5500'.
+	 * 	\param[in]	macAddress passes the devices mac address.
+	 * 	\param[in]	gatewayIPv4Address passes the gateways IPv4 address.
+	 * 	\param[in]	subnetMask passes the networks subnet mask.
+	 * 	\param[in]	sourceIPv4Address passes the IPv4 address to use.
 	 */
-	W5500(void);
+	W5500(
+		const unsigned char* macAddress,
+		const unsigned char* gatewayIPv4Address,
+		const unsigned char* subnetMask,
+		const unsigned char* sourceIPv4Address);
 
 	/**
 	 *	\fn		verify(void) 
 	 * 	\brief 	Verifies the W5500 chip by its version number.
 	 * 	\return Boolean indicating the result of verification. 
 	 */
-	bool verify(void);
+	bool verify(void) const;
 
+private:
 	/**
 	 * 	\fn			setGatewayAddress(const unsigned char* gatewayAddress) const
 	 *	\brief 		Sets the gateway address of the W5500 chip.
@@ -59,7 +68,6 @@ public:
 	 */
 	void setSourceIPAddress(const unsigned char* sourceIPAddress) const;
 
-private:
 	/**
 	 *	\fn			resetRegister(const uint16_t& registerAddress) 
 	 * 	\brief		Reset a register of the W5500 chip at the passed address.

@@ -11,5 +11,5 @@ TCPSocket::TCPSocket(
     const uint16_t& port) :
 AbstractSocket(chipInterface, index, port)
 {
-    
+    setSocketType(AbstractSocket::SocketType::TCP);
 }

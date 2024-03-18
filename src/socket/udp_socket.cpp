@@ -11,5 +11,5 @@ UDPSocket::UDPSocket(
     const uint16_t& port) :
 AbstractSocket(chipInterface, index, port)
 {
-    
+    setSocketType(AbstractSocket::SocketType::UDP);
 }

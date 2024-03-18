@@ -12,3 +12,18 @@ AbstractSocket::AbstractSocket(
 _chipInterface(chipInterface),
 _index(index)
 {}
+
+void AbstractSocket::setSocketType(const SocketType& socketType) const
+{}
+
+void AbstractSocket::setLocalPort(const uint16_t& port) const
+{}
+
+void AbstractSocket::setLocalAddress(const unsigned char* addressIPv4) const
+{}
+
+void AbstractSocket::setDestinationPort(const uint16_t& port) const
+{}
+
+void AbstractSocket::setDestinationAddress(const unsigned char* addressIPv4) const
+{}

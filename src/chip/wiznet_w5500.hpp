@@ -21,6 +21,34 @@ public:
 		 */
 		W5500(void);
 
+		/**
+		 * 	\fn			setGatewayAddress(const unsigned char* gatewayAddress) const
+		 *	\brief 		Sets the gateway address of the W5500 chip.
+		 *	\param[in]	gatewayAddress passes the Gateway Address as a 4 Byte C-Array
+		 */
+		void setGatewayAddress(const unsigned char* gatewayAddress) const;
+
+		/**
+		 * 	\fn			setSubnetMaskAddress(const unsigned char* subnetMaskAddress) const
+		 * 	\brief		Sets the subnet mask address of the w5500 chip.
+		 *	\param[in]	subnetMaskAddress passes the Subnet Mask Address as a 4 Byte C-Array
+		 */
+		void setSubnetMaskAddress(const unsigned char* subnetMaskAddress) const;
+
+		/**
+		 * 	\fn			setSourceHardwareAddress(const unsigned char* sourceHardwareAddress) const
+		 * 	\brief 		Sets the MAC Address of the W5500 chip.
+		 *	\param[in] 	sourceHardwareAddress passes the MAC address as a 6 Byte C-Array
+		 */
+		void setSourceHardwareAddress(const unsigned char* sourceHardwareAddress) const;
+
+		/**
+		 * 	\fn			setSourceIPAddress(const unsigned char* sourceIPAddress) const
+		 * 	\brief		Sets the IP Address oof the W5500 chip.
+		 * 	\param[in]	sourceIPAddress passes the IP Address as a 4 Byte C-Array
+		 */
+		void setSourceIPAddress(const unsigned char* sourceIPAddress) const;
+
 private:
 		/**
 		 *	\fn			resetRegister(const uint16_t& registerAddress) 

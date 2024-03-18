@@ -5,13 +5,41 @@
 
 #include "wiznet_w5500.hpp"
 
-#include "../../lib/AVR_SPI/spi.hpp"
+#include "spi.hpp"
 
 W5500::W5500(void)
 {
 	SPI::init();
 	reset();
 	initPHY();
+}
+
+void W5500::setGatewayAddress(const uint8_t *gatewayAddress) const
+{
+	constexpr uint16_t GARRegisterAddress = 0x0001;
+	constexpr uint8_t gatewayAddressByteCount = 4;
+	writeRegister(GARRegisterAddress, 0x04, gatewayAddress, gatewayAddressByteCount);
+}
+
+void W5500::setSubnetMaskAddress(const uint8_t *subnetMaskAddress) const
+{
+	constexpr uint16_t SUBRRegisterAddress = 0x0005; 
+	constexpr uint8_t subnetMaskAddressByteCount = 4;
+	writeRegister(SUBRRegisterAddress, 0x04, subnetMaskAddress, subnetMaskAddressByteCount);
+}
+
+void W5500::setSourceHardwareAddress(const uint8_t *sourceHardwareAddress) const
+{
+	constexpr uint16_t SHARRegisterAddress = 0x0009;
+	constexpr uint8_t sourceHardwareAddressByteCount = 6;
+	writeRegister(SHARRegisterAddress, 0x04, sourceHardwareAddress, sourceHardwareAddressByteCount);
+}
+
+void W5500::setSourceIPAddress(const uint8_t *sourceIPAddress) const
+{
+	constexpr uint16_t SIPRRegisterAddress = 0x000f;
+	constexpr uint8_t sourceIPAddressByteCount = 4;
+	writeRegister(SIPRRegisterAddress, 0x04, sourceIPAddress, sourceIPAddressByteCount);
 }
 
 void W5500::resetRegister(const uint16_t& registerAddress) const

@@ -1,8 +1,12 @@
 file(GLOB INCLUDE_FILES CONFIGURE_DEPENDS 
         "src/chip/wiznet_w5500.hpp" 
         "src/chip/wiznet_w5500.cpp"
-        "src/socket/socket.hpp"
-        "src/socket/socket.cpp")
+        "src/socket/abstract_socket.hpp"
+        "src/socket/abstract_socket.cpp"
+        "src/socket/tcp_socket.hpp"
+        "src/socket/tcp_socket.cpp"
+        "src/socket/udp_socket.hpp"
+        "src/socket/udp_socket.cpp")
 
 add_library(W5500_AVR ${INCLUDE_FILES})
 

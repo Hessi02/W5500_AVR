@@ -42,42 +42,60 @@ public:
         const uint16_t& port);
 
     /**
-     *  \fn         setLocalPort(void) const 
+     *  \fn         setLocalPort(void) 
      *  \brief      Configures the source port number of the socket.
      *  \param[in]  port passes the local port to configure.
      */
-    void setLocalPort(const uint16_t& port) const;
+    void setLocalPort(const uint16_t& port);
 
     /**
-     *  \fn         setLocalAddress(const unsigned char* localIPv4Address) const
-     *  \brief      Configures the local address of the socket.
-     *  \param[in]  addressIPv4 passes the local IPv4 address in 4 bytes. 
-     */
-    void setLocalAddress(const unsigned char* addressIPv4) const;
-
-    /**
-     *  \fn         setDestinationPort(const uint16_t& port) const
+     *  \fn         setDestinationPort(const uint16_t& port)
      *  \brief      Configures the distination port number of the socket.
      *  \param[in]  port passes the destination port to configure.
      */
-    void setDestinationPort(const uint16_t& port) const;
+    void setDestinationPort(const uint16_t& port);
 
     /**
-     *  \fn         setDestinationAddress(const unsigned char* addressIPv4) const
+     *  \fn         setDestinationAddress(const unsigned char* addressIPv4)
      *  \brief      Configures the destinationa address of the socket.
      *  \param[in]  addressIPv4 passses the destination address in 4 bytes.
      */
-    void setDestinationAddress(const unsigned char* addressIPv4) const;
+    void setDestinationAddress(const unsigned char* addressIPv4);
 
 protected:
     /**
-     *  \fn         setSocketType(const SocketType& socketType) const
+     *  \fn         setSocketType(const SocketType& socketType)
      *  \brief      Configures the target socket type in W5500's registers.
      *  \param[in]  socketType passes the target 'SocketType'.  
      */
-    void setSocketType(const SocketType& socketType) const;
+    void setSocketType(const SocketType& socketType);
 
 private:
+    /**
+	 *  \fn         writeControlRegister()
+	 *  \brief      Writes the passed data to the specified register address.
+	 *  \param[in]  addressWord passes the register address to write to.
+	 *  \param[in]  dataByteArray passes the data to send as an byte array.
+	 *  \param[in]  dataByteCount passes the length of the byte array.
+	 */
+	void writeControlRegister( 
+		const uint16_t& addressWord,
+		const unsigned char* dataByteArray,
+		const uint8_t& dataByteCount);
+
+	/**
+	 * 	\fn			readControlRegister()
+	 * 	\brief 		Reads the data of the specified register address.
+	 *  \param[in]  addressWord passes the address to read from.
+	 * 	\param[out]	dataByteArray passes the array to write the received data to. 
+	 *  \param[in]  dataByteCount passes the length of the byte array to read.
+	 *	\return		Pointer to a C array containing the registers data.
+	 */
+	void readControlRegister(
+		const uint16_t& addressWord,
+		unsigned char* dataByteArray,
+		const uint8_t& dataByteCount);
+
     /**
      *  \var    _chipInterface
      *  \brief  A pointer to the W5500 instance controlling the IP communication.

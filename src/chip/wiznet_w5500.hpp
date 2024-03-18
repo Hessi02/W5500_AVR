@@ -16,7 +16,7 @@
  */
 class W5500
 {
-public:
+public:	
 	/**
 	 * 	\fn			W5500()
 	 * 	\brief		The constructor initializes an instance of type 'W5500'.
@@ -134,6 +134,8 @@ private:
 	 * 	\brief 	A list containing all active sockets of various types.
 	 */
 	Vector<AbstractSocket*> _socketList;
+
+	friend class AbstractSocket;
 };
 
 #endif //__WIZNET_W5500_HPP__

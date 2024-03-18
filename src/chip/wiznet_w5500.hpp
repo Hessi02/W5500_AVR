@@ -14,7 +14,34 @@
  */
 class W5500
 {
+public:
+		/**
+		 * 	\fn		W5500(void)
+		 * 	\brief	The constructor initializes an instance of type 'W5500'.
+		 */
+		W5500(void);
+
 private:
+		/**
+		 *	\fn			resetRegister(const uint16_t& registerAddress) 
+		 * 	\brief		Reset a register of the W5500 chip at the passed address.
+		 * 	\param[in]	registerAddress passes the address of the register.
+		 * 	\note 		Only working if MSB of register is a RST bit!
+		 */	
+		void resetRegister(const uint16_t& registerAddress) const;
+
+		/**
+		 *	\fn		reset(void) 
+		 * 	\brief	Resets the registers of the W5500 chip.
+		 */
+		void reset(void) const;
+
+		/**
+		 * 	\fn		initPHY(void)
+		 * 	\brief	Initializes the W5500's PHY configuration.
+		 */
+		void initPHY(void) const;
+
 		/**
 		 *  \fn         writeRegister()
 		 *  \brief      Writes the passed data to the specified register address.
@@ -25,8 +52,8 @@ private:
 		 */
 		void writeRegister(
 			const uint16_t& addressWord,
-			const uint8_t& controlByte,
-			const uint8_t* dataByteArray,
+			const unsigned char& controlByte,
+			const unsigned char* dataByteArray,
 			const uint8_t& dataByteCount) const;
 
 		/**
@@ -34,13 +61,15 @@ private:
 		 * 	\brief 		Reads the data of the specified register address.
 		 *  \param[in]  addressWord passes the address to read from.
 		 *  \param[in]  controlByte passes options for selecting various parameters.
-		 *  \param[in]  byteCount passes the length of the byte array to read.
+		 * 	\param[out]	dataByteArray passes the array to write the received data to. 
+		 *  \param[in]  dataByteCount passes the length of the byte array to read.
 		 *	\return		Pointer to a C array containing the registers data.
 		 */
-		uint8_t* readRegister(
+		void readRegister(
 			const uint16_t& addressWord,
-			const uint8_t& controlByte,
-			const uint8_t& byteCount) const;
+			const unsigned char& controlByte,
+			unsigned char* dataByteArray,
+			const uint8_t& dataByteCount) const;
 };
 
 #endif //__WIZNET_W5500_HPP__

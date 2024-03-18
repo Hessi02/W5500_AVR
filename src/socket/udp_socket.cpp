@@ -4,3 +4,12 @@
  */
 
 #include "udp_socket.hpp"
+
+UDPSocket::UDPSocket(
+    W5500* chipInterface,
+    const uint8_t& index,
+    const uint16_t& port) :
+AbstractSocket(chipInterface, index, port)
+{
+    
+}

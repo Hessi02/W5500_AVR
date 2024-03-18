@@ -6,9 +6,8 @@
 #ifndef __WIZNET_W5500_HPP__
 #define __WIZNET_W5500_HPP__
 
-class AbstractSocket;
-
 #include <stdint.h>
+#include "../socket/abstract_socket.hpp"
 #include "vector.hpp"
 
 /**
@@ -19,7 +18,7 @@ class W5500
 {
 public:
 	/**
-	 * 	\fn			W5500(void)
+	 * 	\fn			W5500()
 	 * 	\brief		The constructor initializes an instance of type 'W5500'.
 	 * 	\param[in]	macAddress passes the devices mac address.
 	 * 	\param[in]	gatewayIPv4Address passes the gateways IPv4 address.
@@ -38,6 +37,18 @@ public:
 	 * 	\return Boolean indicating the result of verification. 
 	 */
 	bool verify(void) const;
+
+	/**			
+	 * 	\fn		 	createSocket(const uint16_t& port)
+	 * 	\brief 		Creates a new socket instance of specified type.
+	 * 	\param[in]	socketType passes the socket type to create.
+	 * 	\param[in]	port passes the source port of the socket
+	 * 	\return  	Instance of specified type (TCP/UDP/MACRAW).
+	 * 	\note		The instance is created on the heap. Make sure to delete. 
+	 */
+	AbstractSocket* createSocket(
+		const AbstractSocket::SocketType& socketType, 
+		const uint16_t& port);
 
 private:
 	/**

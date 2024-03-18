@@ -13,6 +13,19 @@
  *  \brief  The class represents a W5500's UDP socket.
 */
 class UDPSocket : public AbstractSocket
-{};
+{
+public:
+    /**
+     *  \fn             UDPSocket()
+     *  \brief          The constructor initializes an instance of type 'UDPSocket'
+     *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
+     *  \param[in]      index passes the socket's index on the W5500.
+     *  \param[in]      port passes the 16 bit source port value.
+     */
+    UDPSocket(
+        W5500* chipInterface,
+        const uint8_t& index,
+        const uint16_t& port);
+};
 
 #endif //__UDP_SOCKET_HPP__

@@ -13,6 +13,19 @@
  *  \brief  The class represents a W5500's TCP socket.
 */
 class TCPSocket : public AbstractSocket
-{};
+{
+public:
+    /**
+     *  \fn             TCPSocket()
+     *  \brief          The constructor initializes an instance of type 'TCPSocket'
+     *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
+     *  \param[in]      index passes the socket's index on the W5500.
+     *  \param[in]      port passes the 16 bit source port value.
+     */
+    TCPSocket(
+        W5500* chipInterface,
+        const uint8_t& index,
+        const uint16_t& port);
+};
 
 #endif //__TCP_SOCKET_HPP__

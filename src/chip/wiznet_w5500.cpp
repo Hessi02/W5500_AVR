@@ -5,6 +5,8 @@
 
 #include "wiznet_w5500.hpp"
 
+#include "../socket/tcp_socket.hpp"
+#include "../socket/udp_socket.hpp"
 #include "spi.hpp"
 
 W5500::W5500(
@@ -33,6 +35,28 @@ bool W5500::verify(void) const
 
 	return 0x04 == versionNumber;
 }	
+
+AbstractSocket* W5500::createSocket(
+	const AbstractSocket::SocketType& socketType, 
+	const uint16_t& port)
+{
+	AbstractSocket* newSocket = nullptr;
+
+	switch (socketType)
+	{
+		case AbstractSocket::SocketType::UDP: newSocket = new TCPSocket(this, 0, port); break;
+		case AbstractSocket::SocketType::TCP: newSocket = new UDPSocket(this, 0, port); break;
+
+		default: newSocket = nullptr; break;
+	}
+
+	if (newSocket)
+	{
+		_socketList.append(newSocket);
+	}
+
+	return newSocket;	
+}
 
 void W5500::setGatewayAddress(const uint8_t *gatewayAddress) const
 {

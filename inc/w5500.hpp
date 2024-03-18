@@ -11,5 +11,8 @@
 #define __W5500_HP__
 
 #include "../src/chip/wiznet_w5500.hpp"
+#include "../src/socket/abstract_socket.hpp"
+#include "../src/socket/tcp_socket.hpp"
+#include "../src/socket/udp_socket.hpp"
 
 #endif //__W5500_HP__

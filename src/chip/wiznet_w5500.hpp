@@ -25,6 +25,13 @@ public:
 	W5500(void);
 
 	/**
+	 *	\fn		verify(void) 
+	 * 	\brief 	Verifies the W5500 chip by its version number.
+	 * 	\return Boolean indicating the result of verification. 
+	 */
+	bool verify(void);
+
+	/**
 	 * 	\fn			setGatewayAddress(const unsigned char* gatewayAddress) const
 	 *	\brief 		Sets the gateway address of the W5500 chip.
 	 *	\param[in]	gatewayAddress passes the Gateway Address as a 4 Byte C-Array

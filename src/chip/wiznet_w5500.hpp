@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include "../socket/abstract_socket.hpp"
+#include "../address/ipv4_address.hpp"
 #include "vector.hpp"
 
 /**
@@ -27,9 +28,9 @@ public:
 	 */
 	W5500(
 		const unsigned char* macAddress,
-		const unsigned char* gatewayIPv4Address,
-		const unsigned char* subnetMask,
-		const unsigned char* sourceIPv4Address);
+		const IPv4Address& gatewayIPv4Address,
+		const SubnetMask& subnetMask,
+		const IPv4Address& sourceIPv4Address);
 
 	/**
 	 *	\fn		verify(void) 
@@ -54,16 +55,16 @@ private:
 	/**
 	 * 	\fn			setGatewayAddress(const unsigned char* gatewayAddress) const
 	 *	\brief 		Sets the gateway address of the W5500 chip.
-	 *	\param[in]	gatewayAddress passes the Gateway Address as a 4 Byte C-Array
+	 *	\param[in]	gatewayAddress passes the gateway's IPv4Address.
 	 */
-	void setGatewayAddress(const unsigned char* gatewayAddress) const;
+	void setGatewayAddress(const IPv4Address& gatewayAddress) const;
 
 	/**
 	 * 	\fn			setSubnetMaskAddress(const unsigned char* subnetMaskAddress) const
 	 * 	\brief		Sets the subnet mask address of the w5500 chip.
-	 *	\param[in]	subnetMaskAddress passes the Subnet Mask Address as a 4 Byte C-Array
+	 *	\param[in]	subnetMaskAddress passes the subnet mask address.
 	 */
-	void setSubnetMaskAddress(const unsigned char* subnetMaskAddress) const;
+	void setSubnetMaskAddress(const SubnetMask& subnetMaskAddress) const;
 
 	/**
 	 * 	\fn			setSourceHardwareAddress(const unsigned char* sourceHardwareAddress) const
@@ -75,9 +76,9 @@ private:
 	/**
 	 * 	\fn			setSourceIPAddress(const unsigned char* sourceIPAddress) const
 	 * 	\brief		Sets the IP Address oof the W5500 chip.
-	 * 	\param[in]	sourceIPAddress passes the IP Address as a 4 Byte C-Array
+	 * 	\param[in]	sourceIPAddress passes the source's IPv4Address.
 	 */
-	void setSourceIPAddress(const unsigned char* sourceIPAddress) const;
+	void setSourceIPAddress(const IPv4Address& sourceIPAddress) const;
 
 	/**
 	 *	\fn			resetRegister(const uint16_t& registerAddress) 

@@ -70,7 +70,6 @@ protected:
      */
     void setSocketType(const SocketType& socketType);
 
-private:
     /**
 	 *  \fn         writeControlRegister()
 	 *  \brief      Writes the passed data to the specified register address.
@@ -96,6 +95,7 @@ private:
 		unsigned char* dataByteArray,
 		const uint8_t& dataByteCount);
 
+private:
     /**
      *  \var    _chipInterface
      *  \brief  A pointer to the W5500 instance controlling the IP communication.

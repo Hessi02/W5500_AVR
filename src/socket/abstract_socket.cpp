@@ -13,7 +13,9 @@ AbstractSocket::AbstractSocket(
     const uint16_t& port) :
 _chipInterface(chipInterface),
 _index(index)
-{}
+{
+    setLocalPort(port);
+}
 
 void AbstractSocket::setSocketType(const SocketType& socketType)
 {

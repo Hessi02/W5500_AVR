@@ -1,4 +1,6 @@
 file(GLOB INCLUDE_FILES CONFIGURE_DEPENDS 
+        "src/address/ipv4_address.hpp"
+        "src/address/ipv4_address.cpp"
         "src/chip/wiznet_w5500.hpp" 
         "src/chip/wiznet_w5500.cpp"
         "src/socket/abstract_socket.hpp"

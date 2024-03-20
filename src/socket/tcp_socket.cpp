@@ -13,3 +13,17 @@ AbstractSocket(chipInterface, index, port)
 {
     setSocketType(AbstractSocket::SocketType::TCP);
 }
+
+void TCPSocket::open(void)
+{
+    constexpr unsigned char openBitmask = 0x01;
+    constexpr uint16_t SnCRRegisterAddress = 0x0001;
+    writeControlRegister(SnCRRegisterAddress, &openBitmask, 1);
+}
+
+void TCPSocket::listen(void)
+{
+    constexpr unsigned char listenBitmask = 0x02;
+    constexpr uint16_t SnCRRegisterAddress = 0x0001;
+    writeControlRegister(SnCRRegisterAddress, &listenBitmask, 1);
+}

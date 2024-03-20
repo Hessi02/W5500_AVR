@@ -26,6 +26,18 @@ public:
         W5500* chipInterface,
         const uint8_t& index,
         const uint16_t& port);
+
+    /**
+     *  \fn     open(void)
+     *  \brief  Opens and initializes the socket. 
+     */
+    void open(void);
+
+    /**
+     *  \fn     listen(void) 
+     *  \brief  Listens for incoming TCP connections.
+     */
+    void listen(void);
 };
 
 #endif //__TCP_SOCKET_HPP__

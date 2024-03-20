@@ -40,6 +40,19 @@ public:
         const uint16_t& port = 42000);
 
     /**
+     *  \fn     ~AbstractSocket(void)
+     *  \brief  The destructor gets called when the instance gets deleted. 
+     */
+    ~AbstractSocket(void);
+
+    /**
+     *  \fn       getIndex(void) const
+     *  \brief    Returns the socket's index used by the W5500.
+     *  \return   Index of the socket as a uint8_t.
+     */ 
+    uint8_t getIndex(void) const;
+
+    /**
      *  \fn         setLocalPort(void) 
      *  \brief      Configures the source port number of the socket.
      *  \param[in]  port passes the local port to configure.

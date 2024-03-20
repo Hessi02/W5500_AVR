@@ -43,12 +43,31 @@ bool W5500::verify(void) const
 	return 0x04 == versionNumber;
 }	
 
-void W5500::registerSocket(AbstractSocket* socket)
+uint8_t W5500::registerSocket(AbstractSocket* socket)
 {
+	uint8_t targetIndex = 0x09;
+
+	for(uint8_t i = 0; i < 8; i++)
+	{
+		if(!(_occupiedSocketMask & (1 << i)))
+		{
+			targetIndex = i;
+			break;
+		}
+	}
+
 	if (socket)
 	{
 		_socketList.append(socket);
 	}	
+
+	_occupiedSocketMask |= (1 << targetIndex);
+	return targetIndex;
+}
+
+void W5500::unsubscribeSocket(const uint8_t& index)
+{
+	_occupiedSocketMask &= ~(1 << index);
 }
 
 void W5500::resetRegister(const uint16_t& registerAddress) const

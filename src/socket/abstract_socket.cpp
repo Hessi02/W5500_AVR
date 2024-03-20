@@ -10,11 +10,20 @@
 AbstractSocket::AbstractSocket(
     W5500* chipInterface, 
     const uint16_t& port) :
-_chipInterface(chipInterface),
-_index(0)
+_chipInterface(chipInterface)
 {
+    _index = _chipInterface->registerSocket(this);
     setLocalPort(port);
-    _chipInterface->registerSocket(this);
+}
+
+AbstractSocket::~AbstractSocket(void)
+{
+    _chipInterface->unsubscribeSocket(_index);
+}
+
+uint8_t AbstractSocket::getIndex(void) const
+{
+    return _index;
 }
 
 void AbstractSocket::setSocketType(const SocketType& socketType)

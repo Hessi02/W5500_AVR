@@ -46,8 +46,16 @@ private:
 	 * 	\fn		 	registerSocket(const AbstractSocket* socket)
 	 * 	\brief 		Registers a new socket instance.
 	 * 	\param[in]	socket passes a pointer to the socket instance to register. 
+	 * 	\return 	The index for the socket to specify.
 	 */
-	void registerSocket(AbstractSocket* socket);
+	uint8_t registerSocket(AbstractSocket* socket);
+
+	/**
+	 *	\fn			unsubscribeSocket(const uint8_t& index)			 
+	 * 	\brief		Unsubscribe the socket with the given index from the socket list.
+	 * 	\param[in]	index passes the socket's index to remove from the chip.
+	 */
+	void unsubscribeSocket(const uint8_t& index);
 
 	/**
 	 *	\fn			resetRegister(const uint16_t& registerAddress) 
@@ -104,6 +112,8 @@ private:
 	 * 	\brief 	A list containing all active sockets of various types.
 	 */
 	Vector<AbstractSocket*> _socketList;
+
+	uint8_t _occupiedSocketMask = 0x00;
 
 	friend class AbstractSocket;
 };

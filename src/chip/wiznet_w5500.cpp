@@ -18,11 +18,18 @@ W5500::W5500(
 	SPI::init();
 	reset();
 	initPHY();
+	
+	constexpr uint16_t SHARRegisterAddress = 0x0009;
+	writeRegister(SHARRegisterAddress, 0x04, macAddress.toArray(), 6);
 
-	setSourceHardwareAddress(macAddress);
-	setGatewayAddress(gatewayIPv4Address); 
-	setSubnetMaskAddress(subnetMask);
-	setSourceIPAddress(sourceIPv4Address);
+	constexpr uint16_t GARRegisterAddress = 0x0001;
+	writeRegister(GARRegisterAddress, 0x04, gatewayIPv4Address.toArray(), 4);
+
+	constexpr uint16_t SUBRRegisterAddress = 0x0005; 
+	writeRegister(SUBRRegisterAddress, 0x04, subnetMask.toArray(), 4);
+
+	constexpr uint16_t SIPRRegisterAddress = 0x000f;
+	writeRegister(SIPRRegisterAddress, 0x04, sourceIPv4Address.toArray(), 4);
 }
 
 bool W5500::verify(void) const
@@ -42,34 +49,6 @@ void W5500::registerSocket(AbstractSocket* socket)
 	{
 		_socketList.append(socket);
 	}	
-}
-
-void W5500::setGatewayAddress(const IPv4Address& gatewayAddress) const
-{
-	constexpr uint16_t GARRegisterAddress = 0x0001;
-	constexpr uint8_t byteCount = 4;
-	writeRegister(GARRegisterAddress, 0x04, gatewayAddress.toArray(), byteCount);
-}
-
-void W5500::setSubnetMaskAddress(const SubnetMask& subnetMaskAddress) const
-{
-	constexpr uint16_t SUBRRegisterAddress = 0x0005; 
-	constexpr uint8_t byteCount = 4;
-	writeRegister(SUBRRegisterAddress, 0x04, subnetMaskAddress.toArray(), byteCount);
-}
-
-void W5500::setSourceHardwareAddress(const MACAddress& sourceHardwareAddress) const
-{
-	constexpr uint16_t SHARRegisterAddress = 0x0009;
-	constexpr uint8_t byteCount = 6;
-	writeRegister(SHARRegisterAddress, 0x04, sourceHardwareAddress.toArray(), byteCount);
-}
-
-void W5500::setSourceIPAddress(const IPv4Address& sourceIPAddress) const
-{
-	constexpr uint16_t SIPRRegisterAddress = 0x000f;
-	constexpr uint8_t byteCount = 4;
-	writeRegister(SIPRRegisterAddress, 0x04, sourceIPAddress.toArray(), byteCount);
 }
 
 void W5500::resetRegister(const uint16_t& registerAddress) const

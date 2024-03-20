@@ -92,6 +92,7 @@ void AbstractSocket::sendBuffer(void)
 void AbstractSocket::send(const char* data)
 {
     uint16_t iterator = 0;
+
     while(data[iterator] != '\0')
     {
         iterator++;
@@ -103,7 +104,6 @@ void AbstractSocket::send(const char* data)
     writeBufferRegister(writePointerTX, (unsigned char*)data, iterator);    
 
     setTXWritePointer(writePointerTX + iterator);
-
     sendBuffer();
 }
 
@@ -130,15 +130,6 @@ void AbstractSocket::setTXWritePointer(const uint16_t& length)
     };
     constexpr uint16_t SnRXWRRegisterAddress = 0x0024;
     writeControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
-}
-
-uint16_t AbstractSocket::getTXReadPointer(void)
-{
-    unsigned char lengthArray[2] = {};
-    constexpr uint16_t SnRXWRRegisterAddress = 0x0022;
-    readControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
-
-    return (static_cast<uint16_t>(lengthArray[0]) << 8) + lengthArray[1];
 }
 
 void AbstractSocket::setTXReadPointer(const uint16_t& length)

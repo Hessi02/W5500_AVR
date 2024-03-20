@@ -145,13 +145,6 @@ private:
     void setTXWritePointer(const uint16_t& position);
 
     /**
-     *  \fn         getTXReadPointer(void) 
-     *  \brief      Reads the pointer on the data in the SNTx read buffer.
-     *  \return     16 bit pointer to the target position.
-     */ 
-    uint16_t getTXReadPointer(void);
-
-    /**
      *  \fn         getTXReadPointer(const uint16_t& length)
      *  \brief      Specifies the pointer on the data in the SnTX read buffer.
      *  \param[in]  position passes the pointer's target position.

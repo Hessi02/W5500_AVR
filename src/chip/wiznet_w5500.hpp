@@ -50,34 +50,6 @@ private:
 	void registerSocket(AbstractSocket* socket);
 
 	/**
-	 * 	\fn			setGatewayAddress(const unsigned char* gatewayAddress) const
-	 *	\brief 		Sets the gateway address of the W5500 chip.
-	 *	\param[in]	gatewayAddress passes the gateway's IPv4Address.
-	 */
-	void setGatewayAddress(const IPv4Address& gatewayAddress) const;
-
-	/**
-	 * 	\fn			setSubnetMaskAddress(const unsigned char* subnetMaskAddress) const
-	 * 	\brief		Sets the subnet mask address of the w5500 chip.
-	 *	\param[in]	subnetMaskAddress passes the subnet mask address.
-	 */
-	void setSubnetMaskAddress(const SubnetMask& subnetMaskAddress) const;
-
-	/**
-	 * 	\fn			setSourceHardwareAddress(const unsigned char* sourceHardwareAddress) const
-	 * 	\brief 		Sets the MAC Address of the W5500 chip.
-	 *	\param[in] 	sourceHardwareAddress passes the MAC address.
-	 */
-	void setSourceHardwareAddress(const MACAddress& sourceHardwareAddress) const;
-
-	/**
-	 * 	\fn			setSourceIPAddress(const unsigned char* sourceIPAddress) const
-	 * 	\brief		Sets the IP Address oof the W5500 chip.
-	 * 	\param[in]	sourceIPAddress passes the source's IPv4Address.
-	 */
-	void setSourceIPAddress(const IPv4Address& sourceIPAddress) const;
-
-	/**
 	 *	\fn			resetRegister(const uint16_t& registerAddress) 
 	 * 	\brief		Reset a register of the W5500 chip at the passed address.
 	 * 	\param[in]	registerAddress passes the address of the register.

@@ -124,10 +124,11 @@ private:
     /**
      *  \fn         writeToBuffer(const unsigned char* data, const uint16_t length)
      *  \brief      Writes to the sockets SnTX buffer register. 
+     *  \param[in]  addressRegister passes the buffers register to start writing.
      *  \param[in]  data passes the data array to copy into the buffer.
      *  \param[in]  length passes the length of the data array.
     */
-    void writeBufferRegister(const unsigned char* data, const uint8_t& length);
+    void writeBufferRegister(const uint16_t& addressRegister, const unsigned char* data, const uint8_t& length);
 
     /**
      *  \fn         readTXBufferPointer(void) 

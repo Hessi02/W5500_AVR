@@ -100,17 +100,17 @@ void AbstractSocket::send(const char* data)
     uint16_t writePointerTX = getTXWritePointer();
     setTXReadPointer(writePointerTX);
 
-    writeBufferRegister((unsigned char*)data, iterator);    
+    writeBufferRegister(writePointerTX, (unsigned char*)data, iterator);    
 
     setTXWritePointer(writePointerTX + iterator);
 
     sendBuffer();
 }
 
-void AbstractSocket::writeBufferRegister(const unsigned char* data, const uint8_t& length)
+void AbstractSocket::writeBufferRegister(const uint16_t& addressRegister, const unsigned char* data, const uint8_t& length)
 {
     const unsigned char controlByte = 0x14 | (_index << 5); 
-    _chipInterface->writeRegister(0x0000, controlByte, data, length);
+    _chipInterface->writeRegister(addressRegister, controlByte, data, length);
 }
 
 uint16_t AbstractSocket::getTXWritePointer(void)

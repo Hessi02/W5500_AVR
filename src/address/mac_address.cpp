@@ -50,7 +50,7 @@ void MACAddress::parseToTwoDim(const char* addressString, char addressInTwoDim[6
     }
 }
 
-void MACAddress::convertCharToInt(char addressInTwoDim[6][2])
+void MACAddress::convertCharToInt(const char addressInTwoDim[6][2])
 {
     for(uint8_t i = 0; i < 6; i++)
     {

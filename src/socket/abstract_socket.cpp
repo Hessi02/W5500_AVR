@@ -81,3 +81,72 @@ void AbstractSocket::readControlRegister(
     const unsigned char controlByte = 0x08 | (_index << 5);
     _chipInterface->readRegister(addressWord, controlByte, dataByteArray, dataByteCount);
 }
+
+void AbstractSocket::sendBuffer(void)
+{
+    constexpr unsigned char sendBitmask = 0x20;
+    constexpr uint16_t SnCRRegisterAddress = 0x0001;
+    writeControlRegister(SnCRRegisterAddress, &sendBitmask, 1);
+}
+
+void AbstractSocket::send(const char* data)
+{
+    uint16_t iterator = 0;
+    while(data[iterator] != '\0')
+    {
+        iterator++;
+    }
+
+    uint16_t writePointerTX = getTXWritePointer();
+    setTXReadPointer(writePointerTX);
+
+    writeBufferRegister((unsigned char*)data, iterator);    
+
+    setTXWritePointer(writePointerTX + iterator);
+
+    sendBuffer();
+}
+
+void AbstractSocket::writeBufferRegister(const unsigned char* data, const uint8_t& length)
+{
+    const unsigned char controlByte = 0x14 | (_index << 5); 
+    _chipInterface->writeRegister(0x0000, controlByte, data, length);
+}
+
+uint16_t AbstractSocket::getTXWritePointer(void)
+{
+    unsigned char lengthArray[2] = {};
+    constexpr uint16_t SnRXWRRegisterAddress = 0x0024;
+    readControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
+
+    return (static_cast<uint16_t>(lengthArray[0]) << 8) + lengthArray[1];
+}
+
+void AbstractSocket::setTXWritePointer(const uint16_t& length)
+{   
+    const unsigned char lengthArray[2] = {
+        static_cast<unsigned char>((length >> 8) & 0xff), 
+        static_cast<unsigned char>(length & 0xff)
+    };
+    constexpr uint16_t SnRXWRRegisterAddress = 0x0024;
+    writeControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
+}
+
+uint16_t AbstractSocket::getTXReadPointer(void)
+{
+    unsigned char lengthArray[2] = {};
+    constexpr uint16_t SnRXWRRegisterAddress = 0x0022;
+    readControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
+
+    return (static_cast<uint16_t>(lengthArray[0]) << 8) + lengthArray[1];
+}
+
+void AbstractSocket::setTXReadPointer(const uint16_t& length)
+{   
+    const unsigned char lengthArray[2] = {
+        static_cast<unsigned char>((length >> 8) & 0xff), 
+        static_cast<unsigned char>(length & 0xff)
+    };
+    constexpr uint16_t SnRXWRRegisterAddress = 0x0022;
+    writeControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
+}

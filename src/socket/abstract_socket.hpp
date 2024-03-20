@@ -74,6 +74,13 @@ public:
      */
     virtual bool isOpen(void) {return false;}
 
+    /**
+     *  \fn         send(const char* data)
+     *  \brief      Sends the passes string to it's destination.
+     *  \param[in]  data passes the C string to send.
+     */
+    void send(const char* data);
+
 protected:
     /**
      *  \fn         setSocketType(const SocketType& socketType)
@@ -108,6 +115,48 @@ protected:
 		const uint8_t& dataByteCount);
 
 private:
+    /**
+     *  \fn     sendBuffer(void) 
+     *  \brief  Sends transmits all the data in the socket's SnTX buffer. 
+     */
+    void sendBuffer(void);
+
+    /**
+     *  \fn         writeToBuffer(const unsigned char* data, const uint16_t length)
+     *  \brief      Writes to the sockets SnTX buffer register. 
+     *  \param[in]  data passes the data array to copy into the buffer.
+     *  \param[in]  length passes the length of the data array.
+    */
+    void writeBufferRegister(const unsigned char* data, const uint8_t& length);
+
+    /**
+     *  \fn         readTXBufferPointer(void) 
+     *  \brief      Reads the pointer on the data in the SNTxBuffer.
+     *  \return     16 bit pointer to the target position.
+     */ 
+    uint16_t getTXWritePointer(void);
+
+    /**
+     *  \fn         setTXWritePointer(const uint16_t& length)
+     *  \brief      Specifies the pointer on the data in the SnTX buffer.
+     *  \param[in]  position passes the pointer's target position.
+     */
+    void setTXWritePointer(const uint16_t& position);
+
+    /**
+     *  \fn         getTXReadPointer(void) 
+     *  \brief      Reads the pointer on the data in the SNTx read buffer.
+     *  \return     16 bit pointer to the target position.
+     */ 
+    uint16_t getTXReadPointer(void);
+
+    /**
+     *  \fn         getTXReadPointer(const uint16_t& length)
+     *  \brief      Specifies the pointer on the data in the SnTX read buffer.
+     *  \param[in]  position passes the pointer's target position.
+     */
+    void setTXReadPointer(const uint16_t& position);
+
     /**
      *  \var    _chipInterface
      *  \brief  A pointer to the W5500 instance controlling the IP communication.

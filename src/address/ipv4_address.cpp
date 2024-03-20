@@ -7,7 +7,6 @@
 
 #include <stdint.h>
 
-
 IPv4Address::IPv4Address(const char* addressAsString)
 {
     if (validateAddressString(addressAsString))

@@ -7,10 +7,11 @@
 #define __WIZNET_W5500_HPP__
 
 #include <stdint.h>
+#include "vector.hpp"
 #include "../socket/tcp_socket.hpp"
 #include "../socket/udp_socket.hpp"
 #include "../address/ipv4_address.hpp"
-#include "vector.hpp"
+#include "../address/mac_address.hpp"
 
 /**
  *  \class  W5500
@@ -28,7 +29,7 @@ public:
 	 * 	\param[in]	sourceIPv4Address passes the IPv4 address to use.
 	 */
 	W5500(
-		const unsigned char* macAddress,
+		const MACAddress& macAddress,
 		const IPv4Address& gatewayIPv4Address,
 		const SubnetMask& subnetMask,
 		const IPv4Address& sourceIPv4Address);
@@ -65,9 +66,9 @@ private:
 	/**
 	 * 	\fn			setSourceHardwareAddress(const unsigned char* sourceHardwareAddress) const
 	 * 	\brief 		Sets the MAC Address of the W5500 chip.
-	 *	\param[in] 	sourceHardwareAddress passes the MAC address as a 6 Byte C-Array
+	 *	\param[in] 	sourceHardwareAddress passes the MAC address.
 	 */
-	void setSourceHardwareAddress(const unsigned char* sourceHardwareAddress) const;
+	void setSourceHardwareAddress(const MACAddress& sourceHardwareAddress) const;
 
 	/**
 	 * 	\fn			setSourceIPAddress(const unsigned char* sourceIPAddress) const

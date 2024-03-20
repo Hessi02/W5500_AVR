@@ -5,12 +5,12 @@
 
 #include "wiznet_w5500.hpp"
 
+#include "spi.hpp"
 #include "../socket/tcp_socket.hpp"
 #include "../socket/udp_socket.hpp"
-#include "spi.hpp"
 
 W5500::W5500(
-	const unsigned char* macAddress,
+	const MACAddress& macAddress,
 	const IPv4Address& gatewayIPv4Address,
 	const SubnetMask& subnetMask,
 	const IPv4Address& sourceIPv4Address)
@@ -58,11 +58,11 @@ void W5500::setSubnetMaskAddress(const SubnetMask& subnetMaskAddress) const
 	writeRegister(SUBRRegisterAddress, 0x04, subnetMaskAddress.toArray(), byteCount);
 }
 
-void W5500::setSourceHardwareAddress(const unsigned char* sourceHardwareAddress) const
+void W5500::setSourceHardwareAddress(const MACAddress& sourceHardwareAddress) const
 {
 	constexpr uint16_t SHARRegisterAddress = 0x0009;
 	constexpr uint8_t byteCount = 6;
-	writeRegister(SHARRegisterAddress, 0x04, sourceHardwareAddress, byteCount);
+	writeRegister(SHARRegisterAddress, 0x04, sourceHardwareAddress.toArray(), byteCount);
 }
 
 void W5500::setSourceIPAddress(const IPv4Address& sourceIPAddress) const

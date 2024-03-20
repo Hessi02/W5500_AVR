@@ -36,26 +36,12 @@ bool W5500::verify(void) const
 	return 0x04 == versionNumber;
 }	
 
-AbstractSocket* W5500::createSocket(
-	const AbstractSocket::SocketType& socketType, 
-	const uint16_t& port)
+void W5500::registerSocket(AbstractSocket* socket)
 {
-	AbstractSocket* newSocket = nullptr;
-
-	switch (socketType)
+	if (socket)
 	{
-		case AbstractSocket::SocketType::UDP: newSocket = new TCPSocket(this, 0, port); break;
-		case AbstractSocket::SocketType::TCP: newSocket = new UDPSocket(this, 0, port); break;
-
-		default: newSocket = nullptr; break;
-	}
-
-	if (newSocket)
-	{
-		_socketList.append(newSocket);
-	}
-
-	return newSocket;	
+		_socketList.append(socket);
+	}	
 }
 
 void W5500::setGatewayAddress(const IPv4Address& gatewayAddress) const

@@ -19,25 +19,38 @@ public:
      *  \fn             TCPSocket()
      *  \brief          The constructor initializes an instance of type 'TCPSocket'
      *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
-     *  \param[in]      index passes the socket's index on the W5500.
      *  \param[in]      port passes the 16 bit source port value.
      */
     TCPSocket(
         W5500* chipInterface,
-        const uint8_t& index,
         const uint16_t& port);
-
-    /**
-     *  \fn     open(void)
-     *  \brief  Opens and initializes the socket. 
-     */
-    void open(void);
 
     /**
      *  \fn     listen(void) 
      *  \brief  Listens for incoming TCP connections.
      */
     void listen(void);
+
+    /**
+     *  \fn       isOpen(void)
+     *  \brief    Checks whether the socket is open or not.  
+     *  \return   Boolean indicating the socket's opening status.
+     */
+    virtual bool isOpen(void) override;
+
+    /**
+     *  \fn       isListening(void)
+     *  \brief    Checks whether the socket is listening or not.
+     *  \return   Boolaean indicating the socket's listening status.
+    */
+   bool isListening(void);
+
+   /**
+    *   \fn       isConnected(void)
+    *   \brief    Checks whether the socket is connected or not.
+    *   \return   Boolean indicating the socket's connection status.
+   */
+  bool isConnected(void);
 };
 
 #endif //__TCP_SOCKET_HPP__

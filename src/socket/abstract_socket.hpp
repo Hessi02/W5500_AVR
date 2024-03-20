@@ -33,13 +33,11 @@ public:
      *  \fn             AbstractSocket()
      *  \brief          The constructor initializes an instance of type 'AbstractSocket'
      *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
-     *  \param[in]      index passes the socket's index on the W5500.
      *  \param[in]      port passes the 16 bit source port value.
      */
     AbstractSocket(
         W5500* chipInterface,
-        const uint8_t& index,
-        const uint16_t& port);
+        const uint16_t& port = 42000);
 
     /**
      *  \fn         setLocalPort(void) 
@@ -61,6 +59,20 @@ public:
      *  \param[in]  addressIPv4 passses the destination address in 4 bytes.
      */
     void setDestinationAddress(const unsigned char* addressIPv4);
+
+    /**
+     *  \fn     open(void)
+     *  \brief  Opens and initializes the socket. 
+     */
+    void open(void);
+
+    /**
+     *  \fn       isOpen(void)
+     *  \brief    Checks whether the socket is open or not.  
+     *  \return   Boolean indication the socket opening status.
+     *  \todo     Make pure virtual methods possible...
+     */
+    virtual bool isOpen(void) {return false;}
 
 protected:
     /**

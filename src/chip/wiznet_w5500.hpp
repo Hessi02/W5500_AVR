@@ -7,7 +7,8 @@
 #define __WIZNET_W5500_HPP__
 
 #include <stdint.h>
-#include "../socket/abstract_socket.hpp"
+#include "../socket/tcp_socket.hpp"
+#include "../socket/udp_socket.hpp"
 #include "../address/ipv4_address.hpp"
 #include "vector.hpp"
 
@@ -39,19 +40,14 @@ public:
 	 */
 	bool verify(void) const;
 
-	/**			
-	 * 	\fn		 	createSocket(const uint16_t& port)
-	 * 	\brief 		Creates a new socket instance of specified type.
-	 * 	\param[in]	socketType passes the socket type to create.
-	 * 	\param[in]	port passes the source port of the socket
-	 * 	\return  	Instance of specified type (TCP/UDP/MACRAW).
-	 * 	\note		The instance is created on the heap. Make sure to delete. 
-	 */
-	AbstractSocket* createSocket(
-		const AbstractSocket::SocketType& socketType, 
-		const uint16_t& port);
-
 private:
+	/**			
+	 * 	\fn		 	registerSocket(const AbstractSocket* socket)
+	 * 	\brief 		Registers a new socket instance.
+	 * 	\param[in]	socket passes a pointer to the socket instance to register. 
+	 */
+	void registerSocket(AbstractSocket* socket);
+
 	/**
 	 * 	\fn			setGatewayAddress(const unsigned char* gatewayAddress) const
 	 *	\brief 		Sets the gateway address of the W5500 chip.

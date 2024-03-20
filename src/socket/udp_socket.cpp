@@ -7,9 +7,13 @@
 
 UDPSocket::UDPSocket(
     W5500* chipInterface,
-    const uint8_t& index,
     const uint16_t& port) :
-AbstractSocket(chipInterface, index, port)
+AbstractSocket(chipInterface, port)
 {
     setSocketType(AbstractSocket::SocketType::UDP);
+}
+
+bool UDPSocket::isOpen(void)
+{
+    return false;
 }

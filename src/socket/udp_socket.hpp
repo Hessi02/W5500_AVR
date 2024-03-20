@@ -19,13 +19,18 @@ public:
      *  \fn             UDPSocket()
      *  \brief          The constructor initializes an instance of type 'UDPSocket'
      *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
-     *  \param[in]      index passes the socket's index on the W5500.
      *  \param[in]      port passes the 16 bit source port value.
      */
     UDPSocket(
         W5500* chipInterface,
-        const uint8_t& index,
         const uint16_t& port);
+
+    /**
+     *  \fn       isOpen(void)
+     *  \brief    Checks whether the socket is open or not.  
+     *  \return   Boolean indication the socket opening status.
+     */
+    virtual bool isOpen(void) override; 
 };
 
 #endif //__UDP_SOCKET_HPP__

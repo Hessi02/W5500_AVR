@@ -7,82 +7,85 @@
 
 #include <stdint.h>
 
-IPv4Address::IPv4Address(const char* addressAsString)
+IPv4Address::IPv4Address (const char *addressAsString)
 {
-    if (validateAddressString(addressAsString))
-    {
-        parseAddressString(addressAsString);
-    }
+    if (validateAddressString (addressAsString))
+        {
+            parseAddressString (addressAsString);
+        }
 }
 
-bool IPv4Address::validateAddressString(const char* addressAsString) const
+bool
+IPv4Address::validateAddressString (const char *addressAsString) const
 {
     uint8_t iterator = 0;
-    uint8_t periodCounter = 0;    
+    uint8_t periodCounter = 0;
 
-    while(addressAsString[iterator] != '\0')
-    {
-        if (addressAsString[iterator] == '.')
+    while (addressAsString[iterator] != '\0')
         {
-            periodCounter++;
-        }
+            if (addressAsString[iterator] == '.')
+                {
+                    periodCounter++;
+                }
 
-        iterator++;
-    }
+            iterator++;
+        }
 
     return periodCounter == 3;
 }
 
-void IPv4Address::parseAddressString(const char* addressString)
+void
+IPv4Address::parseAddressString (const char *addressString)
 {
     uint8_t iterator = 0;
 
     for (uint8_t i = 0; i < 4; i++)
-    {
-        uint8_t innerIterator = 0;
-        char digitAsByteArray[3] = {};
-
-        while(addressString[iterator] != '.' && addressString[iterator] != '\0')
         {
-            digitAsByteArray[innerIterator] = addressString[iterator];
-            innerIterator++;
+            uint8_t innerIterator = 0;
+            char digitAsByteArray[3] = {};
+
+            while (addressString[iterator] != '.' && addressString[iterator] != '\0')
+                {
+                    digitAsByteArray[innerIterator] = addressString[iterator];
+                    innerIterator++;
+                    iterator++;
+                }
+
+            if (innerIterator == 1)
+                {
+                    digitAsByteArray[2] = digitAsByteArray[0];
+                    digitAsByteArray[1] = '0';
+                    digitAsByteArray[0] = '0';
+                }
+            else if (innerIterator == 2)
+                {
+                    digitAsByteArray[2] = digitAsByteArray[1];
+                    digitAsByteArray[1] = digitAsByteArray[0];
+                    digitAsByteArray[0] = '0';
+                }
+
+            unsigned char byteAsNum = 0x00;
+
+            for (uint8_t n = 0; n < 3; n++)
+                {
+                    uint8_t currentDigit = digitAsByteArray[2 - n] - '0';
+
+                    for (uint8_t r = 0; r < n; r++)
+                        {
+                            currentDigit *= 10;
+                        }
+
+                    byteAsNum += currentDigit;
+                }
+
+            _bytes[i] = byteAsNum;
+
             iterator++;
         }
-        
-        if (innerIterator == 1)
-        {
-            digitAsByteArray[2] = digitAsByteArray[0];    
-            digitAsByteArray[1] = '0';
-            digitAsByteArray[0] = '0';
-        }
-        else if (innerIterator == 2)
-        {
-            digitAsByteArray[2] = digitAsByteArray[1];    
-            digitAsByteArray[1] = digitAsByteArray[0];
-            digitAsByteArray[0] = '0';
-        }
-        
-        unsigned char byteAsNum = 0x00;
-
-        for(uint8_t n = 0; n < 3; n++)
-        {
-            uint8_t currentDigit = digitAsByteArray[2-n] - '0';
-
-            for (uint8_t r = 0; r < n; r++)
-            {
-                currentDigit *= 10;
-            }
-
-            byteAsNum += currentDigit;
-        }
-
-        _bytes[i] = byteAsNum;
-
-        iterator++;
-    }
 }
 
-const unsigned char* IPv4Address::toArray(void) const
+const unsigned char *
+IPv4Address::toArray (void) const
 {
     return _bytes;
-} 
+}

@@ -19,9 +19,10 @@
  *  error if the allocation fails. If it fails, the function returns the nullptr to clarify that and error
  *  occured!
  */
-inline void* operator new(size_t size)
+inline void *
+operator new (size_t size)
 {
-    return malloc(size);
+    return malloc (size);
 }
 
 /**
@@ -33,9 +34,10 @@ inline void* operator new(size_t size)
  *  The function deallocates memory on the heap and makes the memory segment reusable. The implmentation uses
  *  the C function free() to copy its behavior.
  */
-inline void operator delete(void* ptr, unsigned int size)
+inline void
+operator delete (void *ptr, unsigned int size)
 {
-    free(ptr);
+    free (ptr);
 }
 
 #endif //__HEAP_HPP__

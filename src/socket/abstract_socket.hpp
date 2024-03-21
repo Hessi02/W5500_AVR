@@ -18,18 +18,6 @@ class AbstractSocket
 {
 public:
     /**
-     *  \enum   SocketType
-     *  \brief  Enumeration of all known socket types of the W5500.
-     */
-    enum class SocketType
-    {
-        Closed = 0x00,
-        TCP    = 0x01,
-        UDP    = 0x02,
-        MACRAW = 0x04
-    };
-
-    /**
      *  \fn             AbstractSocket()
      *  \brief          The constructor initializes an instance of type 'AbstractSocket'
      *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
@@ -60,20 +48,6 @@ public:
     void setLocalPort(const uint16_t& port);
 
     /**
-     *  \fn         setDestinationPort(const uint16_t& port)
-     *  \brief      Configures the distination port number of the socket.
-     *  \param[in]  port passes the destination port to configure.
-     */
-    void setDestinationPort(const uint16_t& port);
-
-    /**
-     *  \fn         setDestinationAddress(const unsigned char* addressIPv4)
-     *  \brief      Configures the destinationa address of the socket.
-     *  \param[in]  addressIPv4 passses the destination address in 4 bytes.
-     */
-    void setDestinationAddress(const unsigned char* addressIPv4);
-
-    /**
      *  \fn     open(void)
      *  \brief  Opens and initializes the socket. 
      */
@@ -95,13 +69,6 @@ public:
     void send(const char* data);
 
 protected:
-    /**
-     *  \fn         setSocketType(const SocketType& socketType)
-     *  \brief      Configures the target socket type in W5500's registers.
-     *  \param[in]  socketType passes the target 'SocketType'.  
-     */
-    void setSocketType(const SocketType& socketType);
-
     /**
 	 *  \fn         writeControlRegister()
 	 *  \brief      Writes the passed data to the specified register address.

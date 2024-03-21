@@ -10,7 +10,9 @@ TCPSocket::TCPSocket(
     const uint16_t& port) :
 AbstractSocket(chipInterface, port)
 {
-    setSocketType(AbstractSocket::SocketType::TCP);
+    constexpr uint16_t SnModeRegisterAddress = 0x0000;
+    constexpr unsigned char socketMode = 0x01;
+    writeControlRegister(SnModeRegisterAddress, &socketMode, 1);
 }
 
 void TCPSocket::listen(void)

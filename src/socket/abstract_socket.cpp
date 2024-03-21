@@ -26,13 +26,6 @@ uint8_t AbstractSocket::getIndex(void) const
     return _index;
 }
 
-void AbstractSocket::setSocketType(const SocketType& socketType)
-{
-    constexpr uint16_t SnModeRegisterAddress = 0x0000;
-    unsigned char socketMode = static_cast<unsigned char>(socketType);
-    writeControlRegister(SnModeRegisterAddress, &socketMode, 1);
-}
-
 void AbstractSocket::setLocalPort(const uint16_t& port)
 {
     constexpr uint16_t SnPORTRegisterAddress = 0x0004;
@@ -44,26 +37,6 @@ void AbstractSocket::setLocalPort(const uint16_t& port)
     };
 
     writeControlRegister(SnPORTRegisterAddress, portInBytes, byteCount);
-}
-
-void AbstractSocket::setDestinationPort(const uint16_t& port)
-{
-    constexpr uint16_t SnDPORTRegisterAddress = 0x0010;
-    constexpr uint8_t byteCount = 2;
-
-    const unsigned char portInBytes[byteCount] = {
-        static_cast<unsigned char>(0xff & (port >> 8)), 
-        static_cast<unsigned char>(0xff & port)
-    };
-
-    writeControlRegister(SnDPORTRegisterAddress, portInBytes, byteCount);
-}
-
-void AbstractSocket::setDestinationAddress(const unsigned char* addressIPv4)
-{
-    constexpr uint16_t SnDIPRRegisterAddress = 0x000C;
-    constexpr uint8_t byteCount = 4;
-    writeControlRegister(SnDIPRRegisterAddress, addressIPv4, byteCount);
 }
 
 void AbstractSocket::open(void)

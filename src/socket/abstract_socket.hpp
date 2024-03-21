@@ -19,10 +19,9 @@ class AbstractSocket
 public:
     /**
      *  \fn             AbstractSocket()
-     *  \brief          The constructor initializes an instance of type
-     * 'AbstractSocket' \param[inout]   chipInterface passes a pointer to the
-     * W5500 interface instance. \param[in]      port passes the 16 bit source
-     * port value.
+     *  \brief          The constructor initializes an instance of type 'AbstractSocket' 
+     *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance. 
+     *  \param[in]      port passes the 16 bit source port value.
      */
     AbstractSocket(W5500* chipInterface, const uint16_t& port = 42000);
 
@@ -83,10 +82,9 @@ protected:
      * 	\fn			readControlRegister()
      * 	\brief 		Reads the data of the specified register address.
      *  \param[in]  addressWord passes the address to read from.
-     * 	\param[out]	dataByteArray passes the array to write the received
-     *data to. \param[in]  dataByteCount passes the length of the byte array to
-     *read. \return		Pointer to a C array containing the registers
-     *data.
+     * 	\param[out]	dataByteArray passes the array to write the receiveddata to. 
+     *  \param[in]  dataByteCount passes the length of the byte array toread. 
+     *  \return		Pointer to a C array containing the registers data.
      */
     void readControlRegister(const uint16_t& addressWord,
                              unsigned char* dataByteArray,
@@ -100,10 +98,10 @@ private:
     void sendBuffer(void);
 
     /**
-     *  \fn         writeToBuffer(const unsigned char* data, const uint16_t
-     * length) \brief      Writes to the sockets SnTX buffer register.
-     *  \param[in]  addressRegister passes the buffers register to start
-     * writing. \param[in]  data passes the data array to copy into the buffer.
+     *  \fn         writeToBuffer(const unsigned char* data, const uint16_t length) 
+     *  \brief      Writes to the sockets SnTX buffer register.
+     *  \param[in]  addressRegister passes the buffers register to start writing. 
+     *  \param[in]  data passes the data array to copy into the buffer.
      *  \param[in]  length passes the length of the data array.
      */
     void writeBufferRegister(const uint16_t& addressRegister,
@@ -111,9 +109,9 @@ private:
                              const uint8_t& length);
 
     /**
-     *  \fn         readTXBufferPointer(void)
-     *  \brief      Reads the pointer on the data in the SNTxBuffer.
-     *  \return     16 bit pointer to the target position.
+     *  \fn     readTXBufferPointer(void)
+     *  \brief  Reads the pointer on the data in the SNTxBuffer.
+     *  \return 16 bit pointer to the target position.
      */
     uint16_t getTXWritePointer(void);
 

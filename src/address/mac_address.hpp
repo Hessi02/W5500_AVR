@@ -20,10 +20,8 @@ class MACAddress
 public:
     /**
      *  \fn         MACAddress
-     *  \brief      The constructor initializes an instance of type
-     *              'MACAddress'.
-     *  \param[in]  addressAsString passes the address as a C
-     *              string.
+     *  \brief      The constructor initializes an instance of type 'MACAddress'.
+     *  \param[in]  addressAsString passes the address as a C string.
      *
      *  This is the preferred constructor. Even if the class is extended by
      *  additional constructors, it is still the easiest way to enter the
@@ -92,7 +90,7 @@ private:
      *  \brief  The array contains the bytes of the IP address.
      *
      *  It represents the main storage of the MAC address. The methods based on
-     * it are merely tools for assignment, modification and use.
+     *  it are merely tools for assignment, modification and use.
      */
     unsigned char _bytes[6] = {};
 };

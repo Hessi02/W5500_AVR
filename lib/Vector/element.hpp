@@ -23,10 +23,10 @@
  *  pointer to the next element in the linked list. To reach dynamic memory
  *  storage, the element must be created on the heap.
  */
-template <typename ContentType>
+template<typename ContentType>
 class Element
 {
-  public:
+public:
     /**
      *  \fn         Element(const ContentType content, Element* nextElement)
      *  \brief      Intializes the instance of type 'Element'.
@@ -37,7 +37,10 @@ class Element
      *  the next element. When implementing a doubly linked list later on, a
      *  pointer to the previous element must be added.
      */
-    Element (const ContentType content, Element *nextElement) : _content (content), _nextElement (nextElement) {}
+    Element(const ContentType content, Element* nextElement)
+        : _content(content)
+        , _nextElement(nextElement)
+    {}
 
     /**
      *  \fn     getContent(void)
@@ -51,11 +54,7 @@ class Element
      *  should be avoid for new implementations. To do this, responsibilities
      *  must be outsourced to the 'Element' class.
      */
-    ContentType &
-    getContent (void)
-    {
-        return _content;
-    }
+    ContentType& getContent(void) { return _content; }
 
     /**
      *  \fn     getNextElement(void)
@@ -68,11 +67,7 @@ class Element
      *  getter is particularly useful when implementing a doubly linked list.
      *  To do this, responsibilities must be outsourced to the 'Element' class.
      */
-    Element *
-    getNextElement (void) const
-    {
-        return _nextElement;
-    }
+    Element* getNextElement(void) const { return _nextElement; }
 
     /**
      *  \fn         setNextElement(Element* nextElement)
@@ -86,13 +81,9 @@ class Element
      *  variables could also be easily introduced. This must be avoided at all
      *  costs.
      */
-    void
-    setNextElement (Element *nextElement)
-    {
-        _nextElement = nextElement;
-    }
+    void setNextElement(Element* nextElement) { _nextElement = nextElement; }
 
-  private:
+private:
     /**
      *  \var    _content
      *  \brief  The member stores the target instance.
@@ -111,7 +102,7 @@ class Element
      *  list. The descriptor should be changed when implementing the doubly
      *  linked list.
      */
-    Element *_nextElement;
+    Element* _nextElement;
 };
 
 #endif //__ELMENENT_HPP__

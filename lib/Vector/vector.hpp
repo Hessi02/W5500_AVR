@@ -32,10 +32,10 @@
  *  used much to avoid large allocations causing memory errors. Use should be made in the
  *  innermost block to make sure the memory gets deallocated at the earliest time.
  */
-template <typename ContentType>
+template<typename ContentType>
 class Vector
 {
-  public:
+public:
     /**
      *  \fn     Vector(void)
      *  \brief  The constructor intializes the instance of type 'Vector'.
@@ -45,7 +45,9 @@ class Vector
      *  of this would be calculating the storage capacity with particular reference to the
      *  storage requirement of an element of the vector.
      */
-    Vector (void) : _headOfStack (nullptr) {}
+    Vector(void)
+        : _headOfStack(nullptr)
+    {}
 
     /**
      *  \fn     ~Vector(void)
@@ -56,16 +58,15 @@ class Vector
      *  when deleting the vector. This is done by iterating over the vector elements and
      *  gradually removing them from the heap using the delete operator.
      */
-    virtual ~Vector (void)
+    virtual ~Vector(void)
     {
-        Element<ContentType> *nextElement = _headOfStack;
+        Element<ContentType>* nextElement = _headOfStack;
 
-        while (nextElement)
-            {
-                Element<ContentType> *currentElement = nextElement;
-                nextElement = nextElement->getNextElement ();
-                delete currentElement;
-            }
+        while (nextElement) {
+            Element<ContentType>* currentElement = nextElement;
+            nextElement = nextElement->getNextElement();
+            delete currentElement;
+        }
     }
 
     /**
@@ -81,10 +82,9 @@ class Vector
      *  have already been released. For this reason, the method does not affect the passed
      *  parameter in any way.
      */
-    void
-    append (const ContentType value)
+    void append(const ContentType value)
     {
-        Element<ContentType> *newElement = new Element<ContentType> (value, _headOfStack);
+        Element<ContentType>* newElement = new Element<ContentType>(value, _headOfStack);
         _headOfStack = newElement;
     }
 
@@ -99,17 +99,15 @@ class Vector
      *  been deallocated, unauthorized memory accesses will occur. For this purpose, a
      *  validation method for vector elements would be conceivable.
      */
-    uint8_t
-    length (void) const
+    uint8_t length(void) const
     {
         uint8_t loopIterations = 0;
-        Element<ContentType> *nextElement = _headOfStack;
+        Element<ContentType>* nextElement = _headOfStack;
 
-        while (nextElement)
-            {
-                nextElement = nextElement->getNextElement ();
-                loopIterations++;
-            }
+        while (nextElement) {
+            nextElement = nextElement->getNextElement();
+            loopIterations++;
+        }
 
         return loopIterations;
     }
@@ -125,11 +123,10 @@ class Vector
      *  functionality and prevents redundant code. Changes must therefore be made in the
      *  method used.
      */
-    ContentType &
-    at (const uint8_t &index) const
+    ContentType& at(const uint8_t& index) const
     {
-        Element<ContentType> *targetElement = elementAt (index);
-        return targetElement->getContent ();
+        Element<ContentType>* targetElement = elementAt(index);
+        return targetElement->getContent();
     }
 
     /**
@@ -142,16 +139,14 @@ class Vector
      *  to overwrite the deallocated memory areas with the nullptr, as the instances can
      *  then no longer be accessed and therefore dereferenced.
      */
-    void
-    deleteAll (void)
+    void deleteAll(void)
     {
-        const uint8_t elementCount = length ();
+        const uint8_t elementCount = length();
 
-        for (uint8_t i = 0; i < elementCount; i++)
-            {
-                Element<ContentType> *elementPointer = elementAt (i);
-                delete elementPointer;
-            }
+        for (uint8_t i = 0; i < elementCount; i++) {
+            Element<ContentType>* elementPointer = elementAt(i);
+            delete elementPointer;
+        }
 
         _headOfStack = nullptr;
     }
@@ -169,32 +164,25 @@ class Vector
      *  if-else condition makes the code difficult to understand. The query should at least
      *  be merged into a common if condition.
      */
-    void
-    insert (const ContentType content, const uint8_t &index)
+    void insert(const ContentType content, const uint8_t& index)
     {
-        Element<ContentType> *newElement = new Element<ContentType> (content, _headOfStack);
+        Element<ContentType>* newElement = new Element<ContentType>(content, _headOfStack);
 
-        if (index > 0)
-            {
-                newElement->setNextElement (elementAt (index - 1));
-            }
-        else
-            {
-                newElement->setNextElement (nullptr);
-            }
+        if (index > 0) {
+            newElement->setNextElement(elementAt(index - 1));
+        } else {
+            newElement->setNextElement(nullptr);
+        }
 
-        if (!(index >= length () - 1))
-            {
-                Element<ContentType> *elementAfter = elementAt (index);
-                elementAfter->setNextElement (newElement);
-            }
-        else
-            {
-                _headOfStack = newElement;
-            }
+        if (!(index >= length() - 1)) {
+            Element<ContentType>* elementAfter = elementAt(index);
+            elementAfter->setNextElement(newElement);
+        } else {
+            _headOfStack = newElement;
+        }
     }
 
-  protected:
+protected:
     /**
      *  \deprecated
      *  \fn             appendThenDelete(Container<ContentType>* anotherVector)
@@ -208,18 +196,17 @@ class Vector
      *  The user can then release the memory area independently. The method is therefore
      *  marked as 'deprecated'.
      */
-    [[deprecated ("To be replaced by append(). Avoid usage, method might get removed.")]] void
-    appendThenDelete (Vector<ContentType> *anotherVector)
+    [[deprecated("To be replaced by append(). Avoid usage, method might get removed.")]] void
+    appendThenDelete(Vector<ContentType>* anotherVector)
     {
-        for (uint8_t i = 0; i < anotherVector->length (); i++)
-            {
-                append (anotherVector->at (i));
-            }
+        for (uint8_t i = 0; i < anotherVector->length(); i++) {
+            append(anotherVector->at(i));
+        }
 
         delete anotherVector;
     }
 
-  private:
+private:
     /**
      *  \fn         elementAt(const uint8_t& index) const
      *  \brief      The method searches the element at the passed index.
@@ -232,17 +219,15 @@ class Vector
      *  the vector is zero and the method is applied to it, the nullprtr is dereferenced,
      *  which represents an illegal memory access. This requires further consideration.
      */
-    Element<ContentType> *
-    elementAt (const uint8_t &index) const
+    Element<ContentType>* elementAt(const uint8_t& index) const
     {
-        const uint8_t itertaionsFromTop = length () - index - 1;
+        const uint8_t itertaionsFromTop = length() - index - 1;
 
-        Element<ContentType> *elementPointer = _headOfStack;
+        Element<ContentType>* elementPointer = _headOfStack;
 
-        for (uint8_t i = 0; i < itertaionsFromTop; i++)
-            {
-                elementPointer = elementPointer->getNextElement ();
-            }
+        for (uint8_t i = 0; i < itertaionsFromTop; i++) {
+            elementPointer = elementPointer->getNextElement();
+        }
 
         return elementPointer;
     }
@@ -255,7 +240,7 @@ class Vector
      *  is the head of the stack, the vector is empty. The head of the stack must never
      *  contain a deallocated element.
      */
-    Element<ContentType> *_headOfStack;
+    Element<ContentType>* _headOfStack;
 };
 
 #endif //__VECTOR_HPP__

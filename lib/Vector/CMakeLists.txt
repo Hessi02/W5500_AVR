@@ -1,4 +1,4 @@
-add_library(AVR_VECTOR STATIC "heap.hpp" "element.hpp" "vector.hpp")
+add_library(AVR_VECTOR STATIC "heap.hpp" "element.hpp" "iterator.hpp" "vector.hpp")
 
 set_target_properties(AVR_VECTOR PROPERTIES LINKER_LANGUAGE CXX)
 

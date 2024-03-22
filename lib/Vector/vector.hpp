@@ -16,6 +16,7 @@
 
 #include "element.hpp"
 #include "heap.hpp"
+#include "iterator.hpp"
 
 /**
  *  \class  Vector
@@ -181,6 +182,20 @@ public:
             _headOfStack = newElement;
         }
     }
+
+    /**
+     *  \fn         begin(void)
+     *  \brief      Returns an iterator for the starting element of the vector.
+     *  \return     Starting iterator for the specified target type.
+     */
+    Iterator<ContentType> begin(void) { return Iterator(_headOfStack); }
+
+    /**
+     *  \fn         end(void)
+     *  \brief      Returns an iterator for the ending element of the vector.
+     *  \return     Ending iterator of the specified type.
+     */
+    Iterator<ContentType> end(void) { return Iterator(elementAt(0)); }
 
 protected:
     /**

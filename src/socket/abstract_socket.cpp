@@ -7,16 +7,20 @@
 
 #include "../chip/wiznet_w5500.hpp"
 
-AbstractSocket::AbstractSocket(W5500* chipInterface, const uint16_t& port)
-    : _chipInterface(chipInterface)
-{
-    _index = _chipInterface->registerSocket(this);
-    setLocalPort(port);
-}
+AbstractSocket::AbstractSocket(void) {}
 
 AbstractSocket::~AbstractSocket(void)
 {
-    _chipInterface->unsubscribeSocket(_index);
+    if (_chipInterface) {
+        _chipInterface->unsubscribeSocket(_index);
+    }
+}
+
+void AbstractSocket::bind(W5500* chipInterface, const uint16_t& port)
+{
+    _chipInterface = chipInterface;
+    setLocalPort(port);
+    specifyType();
 }
 
 uint8_t AbstractSocket::getIndex(void) const
@@ -46,16 +50,30 @@ void AbstractSocket::writeControlRegister(const uint16_t& addressWord,
                                           const unsigned char* dataByteArray,
                                           const uint8_t& dataByteCount)
 {
-    const unsigned char controlByte = 0x0C | (_index << 5);
-    _chipInterface->writeRegister(addressWord, controlByte, dataByteArray, dataByteCount);
+    if (_chipInterface) {
+        const unsigned char controlByte = 0x0C | (_index << 5);
+        _chipInterface->writeRegister(addressWord, controlByte, dataByteArray, dataByteCount);
+    }
 }
 
 void AbstractSocket::readControlRegister(const uint16_t& addressWord,
                                          unsigned char* dataByteArray,
                                          const uint8_t& dataByteCount)
 {
-    const unsigned char controlByte = 0x08 | (_index << 5);
-    _chipInterface->readRegister(addressWord, controlByte, dataByteArray, dataByteCount);
+    if (_chipInterface) {
+        const unsigned char controlByte = 0x08 | (_index << 5);
+        _chipInterface->readRegister(addressWord, controlByte, dataByteArray, dataByteCount);
+    }
+}
+
+void AbstractSocket::writeBufferRegister(const uint16_t& addressRegister,
+                                         const unsigned char* data,
+                                         const uint8_t& length)
+{
+    if (_chipInterface) {
+        const unsigned char controlByte = 0x14 | (_index << 5);
+        _chipInterface->writeRegister(addressRegister, controlByte, data, length);
+    }
 }
 
 void AbstractSocket::sendBuffer(void)
@@ -80,14 +98,6 @@ void AbstractSocket::send(const char* data)
 
     setTXWritePointer(writePointerTX + iterator);
     sendBuffer();
-}
-
-void AbstractSocket::writeBufferRegister(const uint16_t& addressRegister,
-                                         const unsigned char* data,
-                                         const uint8_t& length)
-{
-    const unsigned char controlByte = 0x14 | (_index << 5);
-    _chipInterface->writeRegister(addressRegister, controlByte, data, length);
 }
 
 uint16_t AbstractSocket::getTXWritePointer(void)

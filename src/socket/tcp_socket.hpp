@@ -18,10 +18,8 @@ public:
     /**
      *  \fn             TcpSocket()
      *  \brief          The constructor initializes an instance of type 'TcpSocket'
-     *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
-     *  \param[in]      port passes the 16 bit source port value.
      */
-    TcpSocket(W5500* chipInterface, const uint16_t& port);
+    TcpSocket(void);
 
     /**
      *  \fn     listen(void)
@@ -49,6 +47,13 @@ public:
      *   \return   Boolean indicating the socket's connection status.
      */
     bool isConnected(void);
+
+private:
+    /**
+     *  \fn     specifyType(void) 
+     *  \brief  Specifies the socket type on the W5500 chip.
+     */
+    virtual void specifyType(void) override;
 };
 
 #endif //__TCP_SOCKET_HPP__

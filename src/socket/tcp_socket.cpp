@@ -5,13 +5,9 @@
 
 #include "tcp_socket.hpp"
 
-TcpSocket::TcpSocket(W5500* chipInterface, const uint16_t& port)
-    : AbstractSocket(chipInterface, port)
-{
-    constexpr uint16_t SnModeRegisterAddress = 0x0000;
-    constexpr unsigned char socketMode = 0x01;
-    writeControlRegister(SnModeRegisterAddress, &socketMode, 1);
-}
+TcpSocket::TcpSocket(void)
+    : AbstractSocket()
+{}
 
 void TcpSocket::listen(void)
 {
@@ -45,4 +41,11 @@ bool TcpSocket::isConnected(void)
     unsigned char socketStatus;
     readControlRegister(SnSRREgisterAddress, &socketStatus, 1);
     return socketStatus == 0x17;
+}
+
+void TcpSocket::specifyType(void)
+{
+    constexpr uint16_t SnModeRegisterAddress = 0x0000;
+    constexpr unsigned char socketMode = 0x01;
+    writeControlRegister(SnModeRegisterAddress, &socketMode, 1);
 }

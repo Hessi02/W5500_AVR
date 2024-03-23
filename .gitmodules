@@ -1,6 +1,6 @@
-[submodule "lib/AVR_Container"]
-	path = lib/AVR_Container
-	url = https://github.com/Hessi02/AVR_Container.git
 [submodule "lib/AVR_SPI"]
 	path = lib/AVR_SPI
 	url = https://github.com/Hessi02/AVR_SPI.git
+[submodule "lib/avr-libstdcpp"]
+	path = lib/avr-libstdcpp
+	url = https://github.com/modm-io/avr-libstdcpp.git

@@ -18,18 +18,30 @@ class AbstractSocket
 {
 public:
     /**
-     *  \fn             AbstractSocket()
-     *  \brief          The constructor initializes an instance of type 'AbstractSocket' 
-     *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance. 
-     *  \param[in]      port passes the 16 bit source port value.
+     *  \fn             AbstractSocket(void)
+     *  \brief          The constructor initializes an instance of type 'AbstractSocket'
      */
-    AbstractSocket(W5500* chipInterface, const uint16_t& port = 42000);
+    AbstractSocket(void);
 
     /**
      *  \fn     ~AbstractSocket(void)
      *  \brief  The destructor gets called when the instance gets deleted.
      */
     ~AbstractSocket(void);
+
+    /**
+     *  \fn             
+     *  \brief 
+     *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
+     *  \param[in]      port passes the 16 bit source port value.
+     */
+    void bind(W5500* chipInterface, const uint16_t& port);
+
+    /**
+     *  \fn     open(void)
+     *  \brief  Opens and initializes the socket.
+     */
+    void open(void);
 
     /**
      *  \fn       getIndex(void) const
@@ -44,12 +56,6 @@ public:
      *  \param[in]  port passes the local port to configure.
      */
     void setLocalPort(const uint16_t& port);
-
-    /**
-     *  \fn     open(void)
-     *  \brief  Opens and initializes the socket.
-     */
-    void open(void);
 
     /**
      *  \fn       isOpen(void)
@@ -89,6 +95,12 @@ protected:
     void readControlRegister(const uint16_t& addressWord,
                              unsigned char* dataByteArray,
                              const uint8_t& dataByteCount);
+
+    /**
+     *  \fn     specifyType(void) 
+     *  \brief  Specifies the socket type on the W5500 chip.
+     */
+    virtual void specifyType(void) = 0;
 
 private:
     /**

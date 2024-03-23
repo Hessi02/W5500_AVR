@@ -8,10 +8,7 @@
 
 #include <stdint.h>
 
-/*
- * Change the include path ASAP
- */
-#include <avr_container.hpp>
+#include <vector>
 
 #include "../address/host_address.hpp"
 #include "../address/mac_address.hpp"
@@ -159,7 +156,7 @@ private:
      *	\var 	_socketList
      * 	\brief 	A list containing all active sockets of various types.
      */
-    Vector<AbstractSocket*> _socketList;
+    AbstractSocket* _socketList[8] = {};
 
     /**
      *  \var    _occupiedSocketMask

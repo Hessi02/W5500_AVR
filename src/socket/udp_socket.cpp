@@ -5,8 +5,8 @@
 
 #include "udp_socket.hpp"
 
-UdpSocket::UdpSocket(W5500* chipInterface, const uint16_t& port)
-    : AbstractSocket(chipInterface, port)
+UdpSocket::UdpSocket(void)
+    : AbstractSocket()
 {
     constexpr uint16_t SnModeRegisterAddress = 0x0000;
     constexpr unsigned char socketMode = 0x02;

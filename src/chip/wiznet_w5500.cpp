@@ -111,7 +111,7 @@ uint8_t W5500::registerSocket(AbstractSocket* socket)
     }
 
     if (socket) {
-        _socketList.append(socket);
+        _socketList[targetIndex] = socket;
     }
 
     _occupiedSocketMask |= (1 << targetIndex);

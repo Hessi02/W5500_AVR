@@ -18,9 +18,8 @@ add_library(W5500_AVR ${INCLUDE_FILES})
 
 set_target_properties(W5500_AVR PROPERTIES LINKER_LANGUAGE CXX)
 
-add_subdirectory("lib/AVR_SPI")
-add_subdirectory("lib/AVR_Container")
+add_subdirectory("lib")
 
-target_link_libraries(W5500_AVR PUBLIC AVR_Container AVR_SPI)
+target_link_libraries(W5500_AVR PUBLIC avr-libstdcpp AVR_SPI)
 
 target_include_directories(W5500_AVR PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc")

@@ -18,7 +18,7 @@ add_library(W5500_AVR ${INCLUDE_FILES})
 
 set_target_properties(W5500_AVR PROPERTIES LINKER_LANGUAGE CXX)
 
-add_subdirectory("lib/SPI")
+add_subdirectory("lib/AVR_SPI")
 add_subdirectory("lib/AVR_Container")
 
 target_link_libraries(W5500_AVR PUBLIC AVR_Container AVR_SPI)

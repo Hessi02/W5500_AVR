@@ -33,7 +33,7 @@ private:
      *  \fn     specifyType(void) 
      *  \brief  Specifies the socket type on the W5500 chip.
      */
-    virtual void specifyType(void) override;
+    void specifyType(void);
 };
 
 #endif //__UDP_SOCKET_HPP__

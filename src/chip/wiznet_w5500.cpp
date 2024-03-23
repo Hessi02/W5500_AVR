@@ -7,14 +7,15 @@
 
 #include "../socket/tcp_socket.hpp"
 #include "../socket/udp_socket.hpp"
-#include "spi.hpp"
+#include <avr/io.h>
 
 W5500::W5500(const MacAddress& macAddress,
              const HostAddress& gatewayIPv4Address,
              const SubnetMask& subnetMask,
              const HostAddress& sourceIPv4Address)
+    : SpiDevice(DDRB, PORTB, 0x04)
 {
-    SPI::init();
+    SpiBus::initialize();
 
     if (verify()) {
         initRegister(macAddress, gatewayIPv4Address, subnetMask, sourceIPv4Address);
@@ -25,8 +26,9 @@ W5500::W5500(const char* macAddress,
              const char* gatewayIPv4Address,
              const char* subnetMask,
              const char* sourceIPv4Address)
+    : SpiDevice(DDRB, PORTB, 0x04)
 {
-    SPI::init();
+    SpiBus::initialize(0x00);
 
     if (verify()) {
         initRegister(MacAddress(macAddress),
@@ -36,14 +38,14 @@ W5500::W5500(const char* macAddress,
     }
 }
 
-bool W5500::verify(void) const
+bool W5500::verify(void)
 {
     unsigned char versionNumber;
     readRegister(_chipVersionRegisterAddress, 0x00, &versionNumber, 1);
     return 0x04 == versionNumber;
 }
 
-bool W5500::setMACAddress(const MacAddress& macAddress) const
+bool W5500::setMACAddress(const MacAddress& macAddress)
 {
     writeRegister(_macAddrRegisterAddress, 0x04, macAddress.toArray(), 6);
 
@@ -57,7 +59,7 @@ bool W5500::setMACAddress(const MacAddress& macAddress) const
     return isSame;
 }
 
-bool W5500::setGatewayAddress(const HostAddress& gatewayAddress) const
+bool W5500::setGatewayAddress(const HostAddress& gatewayAddress)
 {
     writeRegister(_gatewayAddrRegisterAddress, 0x04, gatewayAddress.toArray(), 4);
 
@@ -71,7 +73,7 @@ bool W5500::setGatewayAddress(const HostAddress& gatewayAddress) const
     return isSame;
 }
 
-bool W5500::setSourceAddress(const HostAddress& sourceAddress) const
+bool W5500::setSourceAddress(const HostAddress& sourceAddress)
 {
     writeRegister(_sourceAddrRegisterAddress, 0x04, sourceAddress.toArray(), 4);
 
@@ -85,7 +87,7 @@ bool W5500::setSourceAddress(const HostAddress& sourceAddress) const
     return isSame;
 }
 
-bool W5500::setSubnetMask(const SubnetMask& subnetMask) const
+bool W5500::setSubnetMask(const SubnetMask& subnetMask)
 {
     writeRegister(_subnetMaskRegisterAddress, 0x04, subnetMask.toArray(), 4);
 
@@ -121,7 +123,7 @@ uint8_t W5500::registerSocket(AbstractSocket* socket)
 void W5500::initRegister(const MacAddress& macAddress,
                          const HostAddress& gatewayAddress,
                          const SubnetMask& subnetMask,
-                         const HostAddress& sourceAddress) const
+                         const HostAddress& sourceAddress)
 {
     resetRegister(_modeRegisterAddress);
     resetRegister(_phyConfigRegisterAddress);
@@ -136,7 +138,7 @@ void W5500::unsubscribeSocket(const uint8_t& index)
     _occupiedSocketMask &= ~(1 << index);
 }
 
-void W5500::resetRegister(const uint16_t& registerAddress) const
+void W5500::resetRegister(const uint16_t& registerAddress)
 {
     unsigned char tempRegister;
 
@@ -152,35 +154,35 @@ void W5500::resetRegister(const uint16_t& registerAddress) const
 void W5500::writeRegister(const uint16_t& addressWord,
                           const unsigned char& controlByte,
                           const unsigned char* dataByteArray,
-                          const uint8_t& dataByteCount) const
+                          const uint8_t& dataByteCount)
 {
-    SPI::selectSlave();
+    SpiDevice::select();
 
-    SPI::sendByte(static_cast<uint8_t>(addressWord >> 8));
-    SPI::sendByte(static_cast<uint8_t>(addressWord & 0xff));
-    SPI::sendByte(controlByte);
+    SpiBus::sendByte(static_cast<uint8_t>(addressWord >> 8));
+    SpiBus::sendByte(static_cast<uint8_t>(addressWord & 0xff));
+    SpiBus::sendByte(controlByte);
 
     for (uint8_t i = 0; i < dataByteCount; i++) {
-        SPI::sendByte(dataByteArray[i]);
+        SpiBus::sendByte(dataByteArray[i]);
     }
 
-    SPI::deselectSlave();
+    SpiDevice::deselect();
 }
 
 void W5500::readRegister(const uint16_t& addressWord,
                          const unsigned char& controlByte,
                          unsigned char* dataByteArray,
-                         const uint8_t& dataByteCount) const
+                         const uint8_t& dataByteCount)
 {
-    SPI::selectSlave();
+    SpiDevice::select();
 
-    SPI::sendByte(addressWord >> 8);
-    SPI::sendByte(addressWord & 0xff);
-    SPI::sendByte(controlByte);
+    SpiBus::sendByte(addressWord >> 8);
+    SpiBus::sendByte(addressWord & 0xff);
+    SpiBus::sendByte(controlByte);
 
     for (uint8_t i = 0; i < dataByteCount; i++) {
-        dataByteArray[i] = SPI::recvByte();
+        dataByteArray[i] = SpiBus::recvByte();
     }
 
-    SPI::deselectSlave();
+    SpiDevice::deselect();
 }

@@ -35,7 +35,7 @@ public:
      *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
      *  \param[in]      port passes the 16 bit source port value.
      */
-    void bind(W5500* chipInterface, const uint16_t& port);
+    virtual void bind(W5500* chipInterface, const uint16_t& port) = 0;
 
     /**
      *  \fn     open(void)
@@ -97,10 +97,11 @@ protected:
                              const uint8_t& dataByteCount);
 
     /**
-     *  \fn     specifyType(void) 
-     *  \brief  Specifies the socket type on the W5500 chip.
+     *  \var    _chipInterface
+     *  \brief  A pointer to the W5500 instance controlling the IP
+     * communication.
      */
-    virtual void specifyType(void) = 0;
+    W5500* _chipInterface = nullptr;
 
 private:
     /**
@@ -140,13 +141,6 @@ private:
      *  \param[in]  position passes the pointer's target position.
      */
     void setTXReadPointer(const uint16_t& position);
-
-    /**
-     *  \var    _chipInterface
-     *  \brief  A pointer to the W5500 instance controlling the IP
-     * communication.
-     */
-    W5500* _chipInterface = nullptr;
 
     /**
      *  \var    _index

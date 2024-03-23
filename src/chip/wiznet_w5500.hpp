@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 
-#include <vector>
+#include <avr_spi.hpp>
 
 #include "../address/host_address.hpp"
 #include "../address/mac_address.hpp"
@@ -19,7 +19,7 @@
  *  \class  W5500
  *  \brief  The class represents the Wiznet W5500 chip.
  */
-class W5500
+class W5500 : public SpiDevice
 {
 public:
     /**
@@ -53,7 +53,7 @@ public:
      * 	\brief 	Verifies the W5500 chip by its version number.
      * 	\return Boolean indicating the result of verification.
      */
-    bool verify(void) const;
+    bool verify(void);
 
     /**
      *  \fn         setMACAddress(const MacAddress& macAddress) const         
@@ -61,7 +61,7 @@ public:
      *  \param[in]  macAddress passes the MAC address to set.
      *  \return     Indicating success of the writing operation.
      */
-    bool setMACAddress(const MacAddress& macAddress) const;
+    bool setMACAddress(const MacAddress& macAddress);
 
     /**
      *  \fn         setGatewayAddress(const HostAddress& gatewayAddress) const
@@ -69,7 +69,7 @@ public:
      *  \param[in]  gatewayAddress passes the IP address to set.
      *  \return     Indicating success of the writing operation.
      */
-    bool setGatewayAddress(const HostAddress& gatewayAddress) const;
+    bool setGatewayAddress(const HostAddress& gatewayAddress);
 
     /**
      *  \fn         setSourceAddress(const HostAddress& sourceAddress) const
@@ -77,7 +77,7 @@ public:
      *  \param[in]  soureceAddress passes the IP address to set.
      *  \return     Indicating success of the writing operation.
      */
-    bool setSourceAddress(const HostAddress& sourceAddress) const;
+    bool setSourceAddress(const HostAddress& sourceAddress);
 
     /**
      *  \fn         setSubnetMask(const SubnetMask& subnetMask) const
@@ -85,7 +85,7 @@ public:
      *  \param[in]  subnetMask passes the subnet mask to set.
      *  \return     Indicating success of the writing operation.
      */
-    bool setSubnetMask(const SubnetMask& subnetMask) const;
+    bool setSubnetMask(const SubnetMask& subnetMask);
 
 private:
     /**
@@ -99,7 +99,7 @@ private:
     void initRegister(const MacAddress& macAddress,
                       const HostAddress& gatewayIPv4Address,
                       const SubnetMask& subnetMask,
-                      const HostAddress& sourceIPv4Address) const;
+                      const HostAddress& sourceIPv4Address);
 
     /**
      * 	\fn		 	registerSocket(const AbstractSocket* socket)
@@ -122,7 +122,7 @@ private:
      * 	\param[in]	registerAddress passes the address of the register.
      * 	\note 		Only working if MSB of register is a RST bit!
      */
-    void resetRegister(const uint16_t& registerAddress) const;
+    void resetRegister(const uint16_t& registerAddress);
 
     /**
      *  \fn         writeRegister()
@@ -135,7 +135,7 @@ private:
     void writeRegister(const uint16_t& addressWord,
                        const unsigned char& controlByte,
                        const unsigned char* dataByteArray,
-                       const uint8_t& dataByteCount) const;
+                       const uint8_t& dataByteCount);
 
     /**
      * 	\fn			readRegister()
@@ -149,7 +149,7 @@ private:
     void readRegister(const uint16_t& addressWord,
                       const unsigned char& controlByte,
                       unsigned char* dataByteArray,
-                      const uint8_t& dataByteCount) const;
+                      const uint8_t& dataByteCount);
 
 private:
     /**

@@ -16,13 +16,6 @@ AbstractSocket::~AbstractSocket(void)
     }
 }
 
-void AbstractSocket::bind(W5500* chipInterface, const uint16_t& port)
-{
-    _chipInterface = chipInterface;
-    setLocalPort(port);
-    specifyType();
-}
-
 uint8_t AbstractSocket::getIndex(void) const
 {
     return _index;

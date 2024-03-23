@@ -22,6 +22,14 @@ public:
     TcpSocket(void);
 
     /**
+     *  \fn             bind(W5500* chipInterface, const uint16_t& port) override        
+     *  \brief          Binds the socket to a port of the passed chip.
+     *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
+     *  \param[in]      port passes the 16 bit source port value.
+     */
+    virtual void bind(W5500* chipInterface, const uint16_t& port) override;
+
+    /**
      *  \fn     listen(void)
      *  \brief  Listens for incoming TCP connections.
      */
@@ -53,7 +61,7 @@ private:
      *  \fn     specifyType(void) 
      *  \brief  Specifies the socket type on the W5500 chip.
      */
-    virtual void specifyType(void) override;
+    void specifyType(void);
 };
 
 #endif //__TCP_SOCKET_HPP__

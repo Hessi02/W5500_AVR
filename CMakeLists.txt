@@ -20,6 +20,7 @@ set_target_properties(W5500_AVR PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory("lib/SPI")
 add_subdirectory("lib/AVR_Container")
-target_link_libraries(W5500_AVR PRIVATE AVR_SPI AVR_VECTOR)
+
+target_link_libraries(W5500_AVR PUBLIC AVR_Container AVR_SPI)
 
 target_include_directories(W5500_AVR PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc")

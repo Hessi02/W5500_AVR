@@ -10,7 +10,7 @@
 #ifndef __W5500_HP__
 #define __W5500_HP__
 
-#include "../src/address/ipv4_address.hpp"
+#include "../src/address/host_address.hpp"
 #include "../src/address/mac_address.hpp"
 #include "../src/chip/wiznet_w5500.hpp"
 #include "../src/socket/abstract_socket.hpp"

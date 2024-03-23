@@ -5,7 +5,7 @@
 
 #include "udp_socket.hpp"
 
-UDPSocket::UDPSocket(W5500* chipInterface, const uint16_t& port)
+UdpSocket::UdpSocket(W5500* chipInterface, const uint16_t& port)
     : AbstractSocket(chipInterface, port)
 {
     constexpr uint16_t SnModeRegisterAddress = 0x0000;
@@ -13,7 +13,7 @@ UDPSocket::UDPSocket(W5500* chipInterface, const uint16_t& port)
     writeControlRegister(SnModeRegisterAddress, &socketMode, 1);
 }
 
-bool UDPSocket::isOpen(void)
+bool UdpSocket::isOpen(void)
 {
     return false;
 }

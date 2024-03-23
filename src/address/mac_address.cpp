@@ -1,13 +1,13 @@
 /**
  *  \file   mac_address.cpp
- *  \brief  The file contains implementations for the class 'MACAddress'.
+ *  \brief  The file contains implementations for the class 'MacAddress'.
  */
 
 #include "mac_address.hpp"
 
 #include <stdint.h>
 
-MACAddress::MACAddress(const char* addressAsString)
+MacAddress::MacAddress(const char* addressAsString)
 {
     if (validateAddressString(addressAsString)) {
         char addressInTwoDim[6][2] = {};
@@ -16,7 +16,7 @@ MACAddress::MACAddress(const char* addressAsString)
     }
 }
 
-bool MACAddress::validateAddressString(const char* addressAsString) const
+bool MacAddress::validateAddressString(const char* addressAsString) const
 {
     uint8_t iterator = 0;
     uint8_t periodCounter = 0;
@@ -32,7 +32,7 @@ bool MACAddress::validateAddressString(const char* addressAsString) const
     return periodCounter == 5;
 }
 
-void MACAddress::parseToTwoDim(const char* addressString, char addressInTwoDim[6][2]) const
+void MacAddress::parseToTwoDim(const char* addressString, char addressInTwoDim[6][2]) const
 {
     uint8_t globalIterator = 0;
 
@@ -45,7 +45,7 @@ void MACAddress::parseToTwoDim(const char* addressString, char addressInTwoDim[6
     }
 }
 
-void MACAddress::convertCharToInt(const char addressInTwoDim[6][2])
+void MacAddress::convertCharToInt(const char addressInTwoDim[6][2])
 {
     for (uint8_t i = 0; i < 6; i++) {
         unsigned char totalByte = 0x00;
@@ -62,7 +62,7 @@ void MACAddress::convertCharToInt(const char addressInTwoDim[6][2])
     }
 }
 
-const unsigned char* MACAddress::toArray(void) const
+const unsigned char* MacAddress::toArray(void) const
 {
     return _bytes;
 }

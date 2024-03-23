@@ -1,13 +1,13 @@
 /**
- *  \file   ipv4_address.hpp
- *  \brief  The file contains declarations for the class 'IPv4Address'.
+ *  \file   host_address.hpp
+ *  \brief  The file contains declarations for the class 'HostAddress'.
  */
 
-#ifndef __IPV4_ADDRESS_HPP__
-#define __IPV4_ADDRESS_HPP__
+#ifndef __HOST_ADDRESS_HPP__
+#define __HOST_ADDRESS_HPP__
 
 /**
- *  \class  IPv4Address
+ *  \class  HostAddress
  *  \brief  The class represents a four byte IPv4 address.
  *
  *  The class abstracts the IPv4 address. This allows it to be defined and
@@ -15,12 +15,12 @@
  *  the user's perspective. Nevertheless, the class must be expanded to
  *  handle incorrect entries in order to rule out incorrect behavior.
  */
-class IPv4Address
+class HostAddress
 {
 public:
     /**
-     *  \fn         IPv4Address(const char* adressAsString)
-     *  \brief      The constructor initializes an element of type 'IPv4Address'. 
+     *  \fn         HostAddress(const char* adressAsString)
+     *  \brief      The constructor initializes an element of type 'HostAddress'. 
      *  \param[in]  addressAsString passes the address in a C string.
      *
      *  This is the preferred constructor. Even if the class is extended by
@@ -28,7 +28,7 @@ public:
      *  address. Please note: The format of the address is as follows:
      *  "XYZ.XYZ.XYZ.XYZ"
      */
-    IPv4Address(const char* addressASString);
+    HostAddress(const char* addressASString);
 
     /**
      *  \fn       toArray(void)
@@ -81,12 +81,12 @@ private:
 
 /**
  *  \typedef    SubnetMask
- *  \brief      The SubnetMask type uses functionalities of the IPv4Address.
+ *  \brief      The SubnetMask type uses functionalities of the HostAddress.
  *
  *  Even if the format of the subnet mask and the IPv4 address are the same,
  *  they are different objects and must be treated as such. This is achieved by
  *  using a typedef.
  */
-typedef IPv4Address SubnetMask;
+typedef HostAddress SubnetMask;
 
-#endif //__IPV4_ADDRESS_HPP__
+#endif //__HOST_ADDRESS_HPP__

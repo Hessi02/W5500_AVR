@@ -13,7 +13,7 @@
  */
 #include <avr_container.hpp>
 
-#include "../address/ipv4_address.hpp"
+#include "../address/host_address.hpp"
 #include "../address/mac_address.hpp"
 #include "../socket/tcp_socket.hpp"
 #include "../socket/udp_socket.hpp"
@@ -33,10 +33,10 @@ public:
      * 	\param[in]	subnetMask passes the networks subnet mask.
      * 	\param[in]	sourceIPv4Address passes the IPv4 address to use.
      */
-    W5500(const MACAddress& macAddress,
-          const IPv4Address& gatewayIPv4Address,
+    W5500(const MacAddress& macAddress,
+          const HostAddress& gatewayIPv4Address,
           const SubnetMask& subnetMask,
-          const IPv4Address& sourceIPv4Address);
+          const HostAddress& sourceIPv4Address);
 
     /**
      * 	\fn		    W5500()
@@ -59,28 +59,28 @@ public:
     bool verify(void) const;
 
     /**
-     *  \fn         setMACAddress(const MACAddress& macAddress) const         
+     *  \fn         setMACAddress(const MacAddress& macAddress) const         
      *  \brief      Sets and validates the MAC address of the chip.
      *  \param[in]  macAddress passes the MAC address to set.
      *  \return     Indicating success of the writing operation.
      */
-    bool setMACAddress(const MACAddress& macAddress) const;
+    bool setMACAddress(const MacAddress& macAddress) const;
 
     /**
-     *  \fn         setGatewayAddress(const IPv4Address& gatewayAddress) const
+     *  \fn         setGatewayAddress(const HostAddress& gatewayAddress) const
      *  \brief      Sets and validates the gateway address of the chip.
      *  \param[in]  gatewayAddress passes the IP address to set.
      *  \return     Indicating success of the writing operation.
      */
-    bool setGatewayAddress(const IPv4Address& gatewayAddress) const;
+    bool setGatewayAddress(const HostAddress& gatewayAddress) const;
 
     /**
-     *  \fn         setSourceAddress(const IPv4Address& sourceAddress) const
+     *  \fn         setSourceAddress(const HostAddress& sourceAddress) const
      *  \brief      Sets and validates the source address of the chip.
      *  \param[in]  soureceAddress passes the IP address to set.
      *  \return     Indicating success of the writing operation.
      */
-    bool setSourceAddress(const IPv4Address& sourceAddress) const;
+    bool setSourceAddress(const HostAddress& sourceAddress) const;
 
     /**
      *  \fn         setSubnetMask(const SubnetMask& subnetMask) const
@@ -99,10 +99,10 @@ private:
      * 	\param[in]	subnetMask passes the networks subnet mask.
      * 	\param[in]	sourceIPv4Address passes the IPv4 address to use.
      */
-    void initRegister(const MACAddress& macAddress,
-                      const IPv4Address& gatewayIPv4Address,
+    void initRegister(const MacAddress& macAddress,
+                      const HostAddress& gatewayIPv4Address,
                       const SubnetMask& subnetMask,
-                      const IPv4Address& sourceIPv4Address) const;
+                      const HostAddress& sourceIPv4Address) const;
 
     /**
      * 	\fn		 	registerSocket(const AbstractSocket* socket)

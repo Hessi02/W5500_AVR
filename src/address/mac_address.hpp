@@ -1,13 +1,13 @@
 /**
  *  \file   mac_address.hpp
- *  \brief  The file contains declaration for the 'MACAddress' class.
+ *  \brief  The file contains declaration for the 'MacAddress' class.
  */
 
 #ifndef __MAC_ADDRESS_HPP__
 #define __MAC_ADDRESS_HPP__
 
 /**
- *  \class  MACAddress
+ *  \class  MacAddress
  *  \brief  The class represents a six byte MAC address.
  *
  *  The class abstracts the MAC address. This allows it to be defined and
@@ -15,12 +15,12 @@
  *  the user's perspective. Nevertheless, the class must be expanded to
  *  handle incorrect entries in order to rule out incorrect behavior.
  */
-class MACAddress
+class MacAddress
 {
 public:
     /**
-     *  \fn         MACAddress
-     *  \brief      The constructor initializes an instance of type 'MACAddress'.
+     *  \fn         MacAddress
+     *  \brief      The constructor initializes an instance of type 'MacAddress'.
      *  \param[in]  addressAsString passes the address as a C string.
      *
      *  This is the preferred constructor. Even if the class is extended by
@@ -28,7 +28,7 @@ public:
      *  address. Please note: The format of the address is as follows:
      *  "XX-XX-XX-XX-XX-XX"
      */
-    MACAddress(const char* addressAsString);
+    MacAddress(const char* addressAsString);
 
     /**
      *  \fn       toArray(void)

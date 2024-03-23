@@ -1,6 +1,6 @@
 /**
  *  \file   udp_socket.hpp
- *  \brief  The file contains declaration for the UDPSocket class.
+ *  \brief  The file contains declaration for the UdpSocket class.
  */
 
 #ifndef __UDP_SOCKET_HPP__
@@ -9,19 +9,19 @@
 #include "abstract_socket.hpp"
 
 /**
- *  \class  UDPSocket
+ *  \class  UdpSocket
  *  \brief  The class represents a W5500's UDP socket.
  */
-class UDPSocket : public AbstractSocket
+class UdpSocket : public AbstractSocket
 {
 public:
     /**
-     *  \fn             UDPSocket()
-     *  \brief          The constructor initializes an instance of type 'UDPSocket'
+     *  \fn             UdpSocket()
+     *  \brief          The constructor initializes an instance of type 'UdpSocket'
      *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
      *  \param[in]      port passes the 16 bit source port value.
      */
-    UDPSocket(W5500* chipInterface, const uint16_t& port);
+    UdpSocket(W5500* chipInterface, const uint16_t& port);
 
     /**
      *  \fn       isOpen(void)

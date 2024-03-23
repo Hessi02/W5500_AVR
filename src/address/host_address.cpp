@@ -1,20 +1,20 @@
 /**
  *  \file   ipv4_address.cpp
- *  \brief  The file contains implementations for the class 'IPv4Address'.
+ *  \brief  The file contains implementations for the class 'HostAddress'.
  */
 
-#include "ipv4_address.hpp"
+#include "host_address.hpp"
 
 #include <stdint.h>
 
-IPv4Address::IPv4Address(const char* addressAsString)
+HostAddress::HostAddress(const char* addressAsString)
 {
     if (validateAddressString(addressAsString)) {
         parseAddressString(addressAsString);
     }
 }
 
-bool IPv4Address::validateAddressString(const char* addressAsString) const
+bool HostAddress::validateAddressString(const char* addressAsString) const
 {
     uint8_t iterator = 0;
     uint8_t periodCounter = 0;
@@ -30,7 +30,7 @@ bool IPv4Address::validateAddressString(const char* addressAsString) const
     return periodCounter == 3;
 }
 
-void IPv4Address::parseAddressString(const char* addressString)
+void HostAddress::parseAddressString(const char* addressString)
 {
     uint8_t iterator = 0;
 
@@ -72,7 +72,7 @@ void IPv4Address::parseAddressString(const char* addressString)
     }
 }
 
-const unsigned char* IPv4Address::toArray(void) const
+const unsigned char* HostAddress::toArray(void) const
 {
     return _bytes;
 }

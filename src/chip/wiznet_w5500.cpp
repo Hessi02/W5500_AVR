@@ -9,10 +9,10 @@
 #include "../socket/udp_socket.hpp"
 #include "spi.hpp"
 
-W5500::W5500(const MACAddress& macAddress,
-             const IPv4Address& gatewayIPv4Address,
+W5500::W5500(const MacAddress& macAddress,
+             const HostAddress& gatewayIPv4Address,
              const SubnetMask& subnetMask,
-             const IPv4Address& sourceIPv4Address)
+             const HostAddress& sourceIPv4Address)
 {
     SPI::init();
 
@@ -29,10 +29,10 @@ W5500::W5500(const char* macAddress,
     SPI::init();
 
     if (verify()) {
-        initRegister(MACAddress(macAddress),
-                     IPv4Address(gatewayIPv4Address),
+        initRegister(MacAddress(macAddress),
+                     HostAddress(gatewayIPv4Address),
                      SubnetMask(subnetMask),
-                     IPv4Address(sourceIPv4Address));
+                     HostAddress(sourceIPv4Address));
     }
 }
 
@@ -43,7 +43,7 @@ bool W5500::verify(void) const
     return 0x04 == versionNumber;
 }
 
-bool W5500::setMACAddress(const MACAddress& macAddress) const
+bool W5500::setMACAddress(const MacAddress& macAddress) const
 {
     writeRegister(_macAddrRegisterAddress, 0x04, macAddress.toArray(), 6);
 
@@ -57,7 +57,7 @@ bool W5500::setMACAddress(const MACAddress& macAddress) const
     return isSame;
 }
 
-bool W5500::setGatewayAddress(const IPv4Address& gatewayAddress) const
+bool W5500::setGatewayAddress(const HostAddress& gatewayAddress) const
 {
     writeRegister(_gatewayAddrRegisterAddress, 0x04, gatewayAddress.toArray(), 4);
 
@@ -71,7 +71,7 @@ bool W5500::setGatewayAddress(const IPv4Address& gatewayAddress) const
     return isSame;
 }
 
-bool W5500::setSourceAddress(const IPv4Address& sourceAddress) const
+bool W5500::setSourceAddress(const HostAddress& sourceAddress) const
 {
     writeRegister(_sourceAddrRegisterAddress, 0x04, sourceAddress.toArray(), 4);
 
@@ -118,10 +118,10 @@ uint8_t W5500::registerSocket(AbstractSocket* socket)
     return targetIndex;
 }
 
-void W5500::initRegister(const MACAddress& macAddress,
-                         const IPv4Address& gatewayAddress,
+void W5500::initRegister(const MacAddress& macAddress,
+                         const HostAddress& gatewayAddress,
                          const SubnetMask& subnetMask,
-                         const IPv4Address& sourceAddress) const
+                         const HostAddress& sourceAddress) const
 {
     resetRegister(_modeRegisterAddress);
     resetRegister(_phyConfigRegisterAddress);

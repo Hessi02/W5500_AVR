@@ -6,7 +6,7 @@
 #ifndef __INTERFACE_HPP__
 #define __INTERFACE_HPP__
 
-#include "../address/ipv4_address.hpp"
+#include "../address/host_address.hpp"
 #include "../address/mac_address.hpp"
 #include "../chip/wiznet_w5500.hpp"
 
@@ -20,10 +20,10 @@ public:
 private:
     const W5500* w5500;
 
-    const IPv4Address _sourceAddress;
-    const IPv4Address _gatewayAddress;
+    const HostAddress _sourceAddress;
+    const HostAddress _gatewayAddress;
     const SubnetMask _subnetMask;
-    const MACAddress _macAddress;
+    const MacAddress _macAddress;
 };
 
 #endif //__INTERFACE_HPP__

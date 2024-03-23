@@ -1,6 +1,6 @@
 /**
  *  \file   tcp_socket.hpp
- *  \brief  The file contains declaration for the TCPSocket class.
+ *  \brief  The file contains declaration for the TcpSocket class.
  */
 
 #ifndef __TCP_SOCKET_HPP__
@@ -9,19 +9,19 @@
 #include "abstract_socket.hpp"
 
 /**
- *  \class  TCPSocket
+ *  \class  TcpSocket
  *  \brief  The class represents a W5500's TCP socket.
  */
-class TCPSocket : public AbstractSocket
+class TcpSocket : public AbstractSocket
 {
 public:
     /**
-     *  \fn             TCPSocket()
-     *  \brief          The constructor initializes an instance of type 'TCPSocket'
+     *  \fn             TcpSocket()
+     *  \brief          The constructor initializes an instance of type 'TcpSocket'
      *  \param[inout]   chipInterface passes a pointer to the W5500 interface instance.
      *  \param[in]      port passes the 16 bit source port value.
      */
-    TCPSocket(W5500* chipInterface, const uint16_t& port);
+    TcpSocket(W5500* chipInterface, const uint16_t& port);
 
     /**
      *  \fn     listen(void)

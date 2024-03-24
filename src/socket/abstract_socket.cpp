@@ -11,7 +11,8 @@ AbstractSocket::AbstractSocket(void) {}
 
 AbstractSocket::~AbstractSocket(void)
 {
-    if (_chipInterface) {
+    if (_chipInterface)
+    {
         _chipInterface->unsubscribeSocket(_index);
     }
 }
@@ -43,7 +44,8 @@ void AbstractSocket::writeControlRegister(const uint16_t& addressWord,
                                           const unsigned char* dataByteArray,
                                           const uint8_t& dataByteCount)
 {
-    if (_chipInterface) {
+    if (_chipInterface)
+    {
         const unsigned char controlByte = 0x0C | (_index << 5);
         _chipInterface->writeRegister(addressWord, controlByte, dataByteArray, dataByteCount);
     }
@@ -53,7 +55,8 @@ void AbstractSocket::readControlRegister(const uint16_t& addressWord,
                                          unsigned char* dataByteArray,
                                          const uint8_t& dataByteCount)
 {
-    if (_chipInterface) {
+    if (_chipInterface)
+    {
         const unsigned char controlByte = 0x08 | (_index << 5);
         _chipInterface->readRegister(addressWord, controlByte, dataByteArray, dataByteCount);
     }
@@ -63,7 +66,8 @@ void AbstractSocket::writeBufferRegister(const uint16_t& addressRegister,
                                          const unsigned char* data,
                                          const uint8_t& length)
 {
-    if (_chipInterface) {
+    if (_chipInterface)
+    {
         const unsigned char controlByte = 0x14 | (_index << 5);
         _chipInterface->writeRegister(addressRegister, controlByte, data, length);
     }
@@ -80,7 +84,8 @@ void AbstractSocket::send(const char* data)
 {
     uint16_t iterator = 0;
 
-    while (data[iterator] != '\0') {
+    while (data[iterator] != '\0')
+    {
         iterator++;
     }
 

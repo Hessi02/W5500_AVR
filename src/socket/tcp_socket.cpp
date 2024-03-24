@@ -7,7 +7,8 @@
 
 TcpSocket::TcpSocket(void)
     : AbstractSocket()
-{}
+{
+}
 
 void TcpSocket::listen(void)
 {
@@ -45,8 +46,10 @@ bool TcpSocket::isConnected(void)
 
 void TcpSocket::waitForConnected(void)
 {
-    if (isListening()) {
-        while (!isConnected()) {
+    if (isListening())
+    {
+        while (!isConnected())
+        {
             ;
         }
     }

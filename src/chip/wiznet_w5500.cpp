@@ -17,7 +17,8 @@ W5500::W5500(const MacAddress& macAddress,
 {
     SpiBus::initialize();
 
-    if (verify()) {
+    if (verify())
+    {
         initRegister(macAddress, gatewayIPv4Address, subnetMask, sourceIPv4Address);
     }
 }
@@ -30,7 +31,8 @@ W5500::W5500(const char* macAddress,
 {
     SpiBus::initialize(0x00);
 
-    if (verify()) {
+    if (verify())
+    {
         initRegister(MacAddress(macAddress),
                      HostAddress(gatewayIPv4Address),
                      SubnetMask(subnetMask),
@@ -53,7 +55,8 @@ bool W5500::setMACAddress(const MacAddress& macAddress)
     readRegister(_macAddrRegisterAddress, 0x00, addressToValidate, 6);
 
     bool isSame = true;
-    for (uint8_t i = 0; i < 6; i++) {
+    for (uint8_t i = 0; i < 6; i++)
+    {
         isSame = isSame && macAddress.toArray()[i] == addressToValidate[i];
     }
     return isSame;
@@ -67,7 +70,8 @@ bool W5500::setGatewayAddress(const HostAddress& gatewayAddress)
     readRegister(_gatewayAddrRegisterAddress, 0x00, addressToValidate, 4);
 
     bool isSame = true;
-    for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t i = 0; i < 4; i++)
+    {
         isSame = isSame && gatewayAddress.toArray()[i] == addressToValidate[i];
     }
     return isSame;
@@ -81,7 +85,8 @@ bool W5500::setSourceAddress(const HostAddress& sourceAddress)
     readRegister(_sourceAddrRegisterAddress, 0x00, addressToValidate, 4);
 
     bool isSame = true;
-    for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t i = 0; i < 4; i++)
+    {
         isSame = isSame && sourceAddress.toArray()[i] == addressToValidate[i];
     }
     return isSame;
@@ -95,7 +100,8 @@ bool W5500::setSubnetMask(const SubnetMask& subnetMask)
     readRegister(_subnetMaskRegisterAddress, 0x00, addressToValidate, 4);
 
     bool isSame = true;
-    for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t i = 0; i < 4; i++)
+    {
         isSame = isSame && subnetMask.toArray()[i] == addressToValidate[i];
     }
     return isSame;
@@ -105,14 +111,17 @@ uint8_t W5500::registerSocket(AbstractSocket* socket)
 {
     uint8_t targetIndex = 0x09;
 
-    for (uint8_t i = 0; i < 8; i++) {
-        if (!(_occupiedSocketMask & (1 << i))) {
+    for (uint8_t i = 0; i < 8; i++)
+    {
+        if (!(_occupiedSocketMask & (1 << i)))
+        {
             targetIndex = i;
             break;
         }
     }
 
-    if (socket) {
+    if (socket)
+    {
         _socketList[targetIndex] = socket;
     }
 
@@ -162,7 +171,8 @@ void W5500::writeRegister(const uint16_t& addressWord,
     SpiBus::sendByte(static_cast<uint8_t>(addressWord & 0xff));
     SpiBus::sendByte(controlByte);
 
-    for (uint8_t i = 0; i < dataByteCount; i++) {
+    for (uint8_t i = 0; i < dataByteCount; i++)
+    {
         SpiBus::sendByte(dataByteArray[i]);
     }
 
@@ -180,7 +190,8 @@ void W5500::readRegister(const uint16_t& addressWord,
     SpiBus::sendByte(addressWord & 0xff);
     SpiBus::sendByte(controlByte);
 
-    for (uint8_t i = 0; i < dataByteCount; i++) {
+    for (uint8_t i = 0; i < dataByteCount; i++)
+    {
         dataByteArray[i] = SpiBus::recvByte();
     }
 

@@ -67,4 +67,5 @@ void TcpSocket::bind(W5500* chipInterface, const uint16_t& port)
     _chipInterface = chipInterface;
     specifyType();
     setLocalPort(port);
+    enableInterrupts();
 }

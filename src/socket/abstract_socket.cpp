@@ -98,6 +98,47 @@ void AbstractSocket::send(const char* data)
     sendBuffer();
 }
 
+void AbstractSocket::enableInterrupts(const unsigned char& interruptMask)
+{
+    constexpr uint16_t SnIMRRegisterAddress = 0x002c;
+    writeControlRegister(SnIMRRegisterAddress, &interruptMask, 1);
+}
+
+void AbstractSocket::eventOccured(void)
+{
+    unsigned char interruptRegister;
+    constexpr uint16_t SnIRRegisterAddress = 0x0002;
+    readControlRegister(SnIRRegisterAddress, &interruptRegister, 1);
+
+    if (interruptRegister & (1 << 0x00))
+        connected();
+
+    if (interruptRegister & (1 << 0x01))
+        disconnected();
+
+    if (interruptRegister & (1 << 0x02))
+        receivedMessage();
+
+    if (interruptRegister & (1 << 0x03))
+        timedOut();
+
+    if (interruptRegister & (1 << 0x04))
+        messageSent();
+}
+
+void AbstractSocket::connected(void)
+{
+    PORTA = ~PORTA;
+}
+
+void AbstractSocket::disconnected(void) {}
+
+void AbstractSocket::receivedMessage(void) {}
+
+void AbstractSocket::timedOut(void) {}
+
+void AbstractSocket::messageSent(void) {}
+
 uint16_t AbstractSocket::getTXWritePointer(void)
 {
     unsigned char lengthArray[2] = {};

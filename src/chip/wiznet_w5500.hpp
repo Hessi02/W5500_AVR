@@ -6,9 +6,9 @@
 #ifndef __WIZNET_W5500_HPP__
 #define __WIZNET_W5500_HPP__
 
-#include <stdint.h>
-
+#include <avr/io.h>
 #include <avr_spi.hpp>
+#include <stdint.h>
 
 #include "../address/host_address.hpp"
 #include "../address/mac_address.hpp"
@@ -23,30 +23,42 @@ class W5500 : public SpiDevice
 {
 public:
     /**
-     * 	\fn			W5500()
-     * 	\brief		The constructor initializes an instance of type 'W5500'.
-     * 	\param[in]	macAddress passes the devices mac address.
-     * 	\param[in]	gatewayIPv4Address passes the gateways IPv4 address.
-     * 	\param[in]	subnetMask passes the networks subnet mask.
-     * 	\param[in]	sourceIPv4Address passes the IPv4 address to use.
+     * 	\fn			  W5500()
+     * 	\brief		  The constructor initializes an instance of type 'W5500'.
+     * 	\param[in]	  macAddress passes the devices mac address.
+     * 	\param[in]	  gatewayIPv4Address passes the gateways IPv4 address.
+     * 	\param[in]	  subnetMask passes the networks subnet mask.
+     * 	\param[in]	  sourceIPv4Address passes the IPv4 address to use.
+     *  \param[inout] chipSelectDataDirectionRegister passes the DDR for the SPI CS pin.
+     *  \param[inout] chipSelectPort passes the PORT for the SPI CS pin.
+     *  \param[inout] chipSelectPin passes the SPI CS pin's index.
      */
     W5500(const MacAddress& macAddress,
           const HostAddress& gatewayIPv4Address,
           const SubnetMask& subnetMask,
-          const HostAddress& sourceIPv4Address);
+          const HostAddress& sourceIPv4Address,
+          volatile unsigned char& chipSelectDataDirectionRegister = DDRB,
+          volatile unsigned char& chipSelectPort = PORTB,
+          const uint8_t& chipSelectPin = 0x04);
 
     /**
-     * 	\fn		    W5500()
-     * 	\brief	    The constructor initializes an instance of type 'W5500'.
-     * 	\param[in]	macAddress passes the devices mac address as a string.
-     * 	\param[in]	gatewayIPv4Address passes the gateways IPv4 address as a string.
-     * 	\param[in]	subnetMask passes the networks subnet mask as a string.
-     * 	\param[in]	sourceIPv4Address passes the IPv4 address to use as a string.
+     * 	\fn		      W5500()
+     * 	\brief	      The constructor initializes an instance of type 'W5500'.
+     * 	\param[in]	  macAddress passes the devices mac address as a string.
+     * 	\param[in]	  gatewayIPv4Address passes the gateways IPv4 address as a string.
+     * 	\param[in]	  subnetMask passes the networks subnet mask as a string.
+     * 	\param[in]	  sourceIPv4Address passes the IPv4 address to use as a string.
+     *  \param[inout] chipSelectDataDirectionRegister passes the DDR for the SPI CS pin.
+     *  \param[inout] chipSelectPort passes the PORT for the SPI CS pin.
+     *  \param[inout] chipSelectPin passes the SPI CS pin's index.
      */
     W5500(const char* macAddress,
           const char* gatewayIPv4Address,
           const char* subnetMask,
-          const char* sourceIPv4Address);
+          const char* sourceIPv4Address,
+          volatile unsigned char& chipSelectDataDirectionRegister = DDRB,
+          volatile unsigned char& chipSelectPort = PORTB,
+          const uint8_t& chipSelectPin = 0x04);
 
     /**
      *	\fn		verify(void)
@@ -87,6 +99,12 @@ public:
      */
     bool setSubnetMask(const SubnetMask& subnetMask);
 
+    /**
+     *  \fn     handleInterupt(void) 
+     *  \brief  Handles an new issued hardware interupt.
+     */
+    void handleInterrupt(void);
+
 private:
     /**
      * 	\fn			initRegister()
@@ -125,6 +143,13 @@ private:
     void resetRegister(const uint16_t& registerAddress);
 
     /**
+     *  \fn         enableSocketInterrupts(const unsigned char& interruptMask = 0xff)     
+     *  \brief      Enables the socket interrupts according to passed mask.
+     *  \param[in]  interruptMask passes the interrupt value for each sockets represented as bit. 
+     */
+    void enableSocketInterrupts(const unsigned char& interruptMask = 0xff);
+
+    /**
      *  \fn         writeRegister()
      *  \brief      Writes the passed data to the specified register address.
      *  \param[in]  addressWord passes the register address to write to.
@@ -151,7 +176,6 @@ private:
                       unsigned char* dataByteArray,
                       const uint8_t& dataByteCount);
 
-private:
     /**
      *	\var 	_socketList
      * 	\brief 	A list containing all active sockets of various types.
@@ -194,6 +218,18 @@ private:
      *  \brief  Configures the source IP address.
      */
     const uint16_t _sourceAddrRegisterAddress = 0x000f;
+
+    /**
+     *  \var    _socketInterruptRegister
+     *  \brief  Indicates the socket that called an interrupt.
+     */
+    const uint16_t _socketInterruptRegister = 0x0017;
+
+    /**
+     *  \var    _socketInterruptMaskRegister
+     *  \brief  Configures socket's that call interrupts.
+     */
+    const uint16_t _socketInterruptMaskRegister = 0x0018;
 
     /**
      *  \var    _pyhConfigRegisterAddress

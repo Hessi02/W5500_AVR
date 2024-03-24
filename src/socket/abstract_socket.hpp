@@ -72,7 +72,57 @@ public:
      */
     void send(const char* data);
 
+public: /* SIGNALS */
+    /**
+     *  \fn     eventOccured(void)
+     *  \brief  This signal is issued when socket is connected.
+     *  \note   The signal needs callbacks to work properly.
+     */
+    void eventOccured(void);
+
+    /**
+     *  \fn     connected(void)
+     *  \brief  This signal is issued when socket is connected.
+     *  \note   The signal needs callbacks to work properly. 
+     */
+    void connected(void);
+
+    /**
+     *  \fn     disconnected(void)
+     *  \brief  This signal is issued when socket is disconnected.
+     *  \note   The signal needs callbacks to work properly.
+     */
+    void disconnected(void);
+
+    /**
+     *  \fn     receivedMessage(void)
+     *  \brief  This signal is issued when socket received a message.
+     *  \note   The signal needs callbacks to work properly. 
+     */
+    void receivedMessage(void);
+
+    /**
+     *  \fn     timedOut(void)
+     *  \brief  This signal is issued when socket timed out.
+     *  \note   The signal needs callbacks to work properly. 
+     */
+    void timedOut(void);
+
+    /**
+     *  \fn     messageSent(void) 
+     *  \brief  This signal is issued when message is sent.
+     *  \note   The signal needs callbacks to work properly. 
+     */
+    void messageSent(void);
+
 protected:
+    /**
+     *  \fn         enableInterrupts(const unsigned char& interruptMask = 0x1f) 
+     *  \brief      Enables the specified socket interrupts.
+     *  \param[in]  interruptMask passes the interrupt mask to enable. 
+     */
+    void enableInterrupts(const unsigned char& interruptMask = 0x1f);
+
     /**
      *  \fn         writeControlRegister()
      *  \brief      Writes the passed data to the specified register address.

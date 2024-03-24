@@ -12,8 +12,11 @@
 W5500::W5500(const MacAddress& macAddress,
              const HostAddress& gatewayIPv4Address,
              const SubnetMask& subnetMask,
-             const HostAddress& sourceIPv4Address)
-    : SpiDevice(DDRB, PORTB, 0x04)
+             const HostAddress& sourceIPv4Address,
+             volatile unsigned char& chipSelectDataDirectionRegister,
+             volatile unsigned char& chipSelectPort,
+             const uint8_t& chipSelectPin)
+    : SpiDevice(chipSelectDataDirectionRegister, chipSelectPort, chipSelectPin)
 {
     SpiBus::initialize();
 
@@ -26,8 +29,11 @@ W5500::W5500(const MacAddress& macAddress,
 W5500::W5500(const char* macAddress,
              const char* gatewayIPv4Address,
              const char* subnetMask,
-             const char* sourceIPv4Address)
-    : SpiDevice(DDRB, PORTB, 0x04)
+             const char* sourceIPv4Address,
+             volatile unsigned char& chipSelectDataDirectionRegister,
+             volatile unsigned char& chipSelectPort,
+             const uint8_t& chipSelectPin)
+    : SpiDevice(chipSelectDataDirectionRegister, chipSelectPort, chipSelectPin)
 {
     SpiBus::initialize(0x00);
 
@@ -140,6 +146,7 @@ void W5500::initRegister(const MacAddress& macAddress,
     setGatewayAddress(gatewayAddress);
     setSubnetMask(subnetMask);
     setSourceAddress(sourceAddress);
+    enableSocketInterrupts();
 }
 
 void W5500::unsubscribeSocket(const uint8_t& index)
@@ -158,6 +165,28 @@ void W5500::resetRegister(const uint16_t& registerAddress)
     readRegister(registerAddress, 0x00, &tempRegister, 1);
     tempRegister |= (1 << 7);
     writeRegister(registerAddress, 0x04, &tempRegister, 1);
+}
+
+void W5500::enableSocketInterrupts(const unsigned char& interruptMask)
+{
+    writeRegister(_socketInterruptMaskRegister, 0x04, &interruptMask, 1);
+}
+
+void W5500::handleInterrupt(void)
+{
+    unsigned char interruptIndicator;
+    readRegister(_socketInterruptRegister, 0x00, &interruptIndicator, 1);
+
+    for (uint8_t i = 0; i < 8; i++)
+    {
+        if (interruptIndicator & (1 << i))
+        {
+            if (_socketList[i])
+            {
+                _socketList[i]->eventOccured();
+            }
+        }
+    }
 }
 
 void W5500::writeRegister(const uint16_t& addressWord,

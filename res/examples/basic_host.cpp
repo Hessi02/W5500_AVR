@@ -3,7 +3,7 @@
  *  \brief  This is an example file for an basic host send operation.
  *  
  *  The W5500 listens on PORT 1000. After a new connection is established,
- *  the chip sends "Hello World" to the client.
+ *  the chip sends a message to the client.
  */
 
 #include "w5500.hpp"

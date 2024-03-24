@@ -43,6 +43,15 @@ bool TcpSocket::isConnected(void)
     return socketStatus == 0x17;
 }
 
+void TcpSocket::waitForConnected(void)
+{
+    if (isListening()) {
+        while (!isConnected()) {
+            ;
+        }
+    }
+}
+
 void TcpSocket::specifyType(void)
 {
     constexpr uint16_t SnModeRegisterAddress = 0x0000;

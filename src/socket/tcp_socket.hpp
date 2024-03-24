@@ -56,6 +56,13 @@ public:
      */
     bool isConnected(void);
 
+    /**
+     *  \fn     waitForConnected(void) 
+     *  \brief  Waits until a connection is established.
+     *  \note   Socket must be listening to work properly.  
+     */
+    void waitForConnected(void);
+
 private:
     /**
      *  \fn     specifyType(void) 

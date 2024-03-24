@@ -146,7 +146,15 @@ void W5500::initRegister(const MacAddress& macAddress,
     setGatewayAddress(gatewayAddress);
     setSubnetMask(subnetMask);
     setSourceAddress(sourceAddress);
+    setInterruptLowLevelTimer(0xffff);
     enableSocketInterrupts();
+}
+
+void W5500::setInterruptLowLevelTimer(const uint16_t& value)
+{
+    const unsigned char valueInBytes[2] = {(value >> 8) & 0xff, value & 0xff};
+    constexpr uint16_t INTLEVELREgisterAddresss = 0x0013;
+    writeRegister(INTLEVELREgisterAddresss, 0x04, valueInBytes, 2);
 }
 
 void W5500::unsubscribeSocket(const uint8_t& index)
@@ -181,10 +189,7 @@ void W5500::handleInterrupt(void)
     {
         if (interruptIndicator & (1 << i))
         {
-            if (_socketList[i])
-            {
-                _socketList[i]->eventOccured();
-            }
+            _socketList[i]->eventOccured();
         }
     }
 }

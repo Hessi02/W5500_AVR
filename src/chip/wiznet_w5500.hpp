@@ -120,6 +120,13 @@ private:
                       const HostAddress& sourceIPv4Address);
 
     /**
+     *  \fn         setInterruptLowLevelTimer(const uint16_t& value)
+     *  \brief      Sets the low level timer value of the W5500 INT.
+     *  \param[in]  value passes the value to assign.
+     */
+    void setInterruptLowLevelTimer(const uint16_t& value);
+
+    /**
      * 	\fn		 	registerSocket(const AbstractSocket* socket)
      * 	\brief 		Registers a new socket instance.
      * 	\param[in]	socket passes a pointer to the socket instance to register.

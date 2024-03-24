@@ -6,6 +6,8 @@
 #include "abstract_socket.hpp"
 
 #include "../chip/wiznet_w5500.hpp"
+#include <avr/io.h>
+#include <util/delay.h>
 
 AbstractSocket::AbstractSocket(void) {}
 
@@ -109,6 +111,7 @@ void AbstractSocket::eventOccured(void)
     unsigned char interruptRegister;
     constexpr uint16_t SnIRRegisterAddress = 0x0002;
     readControlRegister(SnIRRegisterAddress, &interruptRegister, 1);
+    //writeControlRegister(SnIRRegisterAddress, &interruptRegister, 1); // Clearing fails in ISR but why??
 
     if (interruptRegister & (1 << 0x00))
         connected();
@@ -126,10 +129,15 @@ void AbstractSocket::eventOccured(void)
         messageSent();
 }
 
-void AbstractSocket::connected(void)
+unsigned char AbstractSocket::getINTStatus(void)
 {
-    PORTA = ~PORTA;
+    unsigned char interruptRegister;
+    constexpr uint16_t SnIRRegisterAddress = 0x0002;
+    readControlRegister(SnIRRegisterAddress, &interruptRegister, 1);
+    return interruptRegister;
 }
+
+void AbstractSocket::connected(void) {}
 
 void AbstractSocket::disconnected(void) {}
 

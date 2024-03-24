@@ -115,6 +115,8 @@ public: /* SIGNALS */
      */
     void messageSent(void);
 
+    unsigned char getINTStatus(void);
+
 protected:
     /**
      *  \fn         enableInterrupts(const unsigned char& interruptMask = 0x1f) 

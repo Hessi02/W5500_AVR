@@ -105,6 +105,27 @@ public:
      */
     void handleInterrupt(void);
 
+    /**
+     *  \fn     resetSocketInterrupts(void)
+     *  \brief  Resets all acitve socket interrupt flags.
+     */
+    bool resetSocketInterrupts(void);
+
+    /**
+     * 	\fn		 	registerSocket(const AbstractSocket* socket)
+     * 	\brief 		Registers a new socket instance.
+     * 	\param[in]	socket passes a pointer to the socket instance to register.
+     * 	\return 	The index for the socket to specify.
+     */
+    uint8_t registerSocket(AbstractSocket* socket);
+
+    /**
+     *	\fn			unsubscribeSocket(const uint8_t& index)
+     * 	\brief		Unsubscribe the socket with the given index from the socket list.
+     * 	\param[in]	index passes the socket's index to remove from the chip.
+     */
+    void unsubscribeSocket(const uint8_t& index);
+
 private:
     /**
      * 	\fn			initRegister()
@@ -125,21 +146,6 @@ private:
      *  \param[in]  value passes the value to assign.
      */
     void setInterruptLowLevelTimer(const uint16_t& value);
-
-    /**
-     * 	\fn		 	registerSocket(const AbstractSocket* socket)
-     * 	\brief 		Registers a new socket instance.
-     * 	\param[in]	socket passes a pointer to the socket instance to register.
-     * 	\return 	The index for the socket to specify.
-     */
-    uint8_t registerSocket(AbstractSocket* socket);
-
-    /**
-     *	\fn			unsubscribeSocket(const uint8_t& index)
-     * 	\brief		Unsubscribe the socket with the given index from the socket list.
-     * 	\param[in]	index passes the socket's index to remove from the chip.
-     */
-    void unsubscribeSocket(const uint8_t& index);
 
     /**
      *	\fn			resetRegister(const uint16_t& registerAddress)

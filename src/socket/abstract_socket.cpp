@@ -100,6 +100,19 @@ void AbstractSocket::send(const char* data)
     sendBuffer();
 }
 
+bool AbstractSocket::resetInterrupts(void)
+{
+    constexpr uint16_t SnIRRegisterAddress = 0x0002;
+    unsigned char resetMask;
+    readControlRegister(SnIRRegisterAddress, &resetMask, 1);
+    writeControlRegister(SnIRRegisterAddress, &resetMask, 1);
+
+    unsigned char resetResult;
+    readControlRegister(SnIRRegisterAddress, &resetResult, 1);
+
+    return 0x00 == resetResult;
+}
+
 void AbstractSocket::enableInterrupts(const unsigned char& interruptMask)
 {
     constexpr uint16_t SnIMRRegisterAddress = 0x002c;
@@ -111,7 +124,6 @@ void AbstractSocket::eventOccured(void)
     unsigned char interruptRegister;
     constexpr uint16_t SnIRRegisterAddress = 0x0002;
     readControlRegister(SnIRRegisterAddress, &interruptRegister, 1);
-    //writeControlRegister(SnIRRegisterAddress, &interruptRegister, 1); // Clearing fails in ISR but why??
 
     if (interruptRegister & (1 << 0x00))
         connected();
@@ -129,15 +141,10 @@ void AbstractSocket::eventOccured(void)
         messageSent();
 }
 
-unsigned char AbstractSocket::getINTStatus(void)
+void AbstractSocket::connected(void)
 {
-    unsigned char interruptRegister;
-    constexpr uint16_t SnIRRegisterAddress = 0x0002;
-    readControlRegister(SnIRRegisterAddress, &interruptRegister, 1);
-    return interruptRegister;
+    send("Connected to 192.168.178.101!\n\r");
 }
-
-void AbstractSocket::connected(void) {}
 
 void AbstractSocket::disconnected(void) {}
 

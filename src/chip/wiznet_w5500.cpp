@@ -126,10 +126,7 @@ uint8_t W5500::registerSocket(AbstractSocket* socket)
         }
     }
 
-    if (socket)
-    {
-        _socketList[targetIndex] = socket;
-    }
+    _socketList[targetIndex] = socket;
 
     _occupiedSocketMask |= (1 << targetIndex);
     return targetIndex;
@@ -185,13 +182,36 @@ void W5500::handleInterrupt(void)
     unsigned char interruptIndicator;
     readRegister(_socketInterruptRegister, 0x00, &interruptIndicator, 1);
 
+    PORTA = ~interruptIndicator;
+
     for (uint8_t i = 0; i < 8; i++)
     {
-        if (interruptIndicator & (1 << i))
+        AbstractSocket* currentSocket = _socketList[i];
+
+        if (currentSocket && interruptIndicator & (1 << i))
         {
-            _socketList[i]->eventOccured();
+            currentSocket->eventOccured();
         }
     }
+}
+
+bool W5500::resetSocketInterrupts(void)
+{
+    unsigned char interruptIndicator;
+    readRegister(_socketInterruptRegister, 0x00, &interruptIndicator, 1);
+
+    for (uint8_t i = 0; i < 8; i++)
+    {
+        AbstractSocket* currentSocket = _socketList[i];
+
+        if (currentSocket)
+        {
+            currentSocket->resetInterrupts();
+        }
+    }
+
+    readRegister(_socketInterruptRegister, 0x00, &interruptIndicator, 1);
+    return 0x00 == interruptIndicator;
 }
 
 void W5500::writeRegister(const uint16_t& addressWord,

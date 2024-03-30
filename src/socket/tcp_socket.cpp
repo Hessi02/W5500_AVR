@@ -5,6 +5,8 @@
 
 #include "tcp_socket.hpp"
 
+#include "../chip/wiznet_w5500.hpp"
+
 TcpSocket::TcpSocket(void)
     : AbstractSocket()
 {
@@ -65,6 +67,12 @@ void TcpSocket::specifyType(void)
 void TcpSocket::bind(W5500* chipInterface, const uint16_t& port)
 {
     _chipInterface = chipInterface;
+
+    if (_chipInterface)
+    {
+        _index = _chipInterface->registerSocket(this);
+    }
+
     specifyType();
     setLocalPort(port);
     enableInterrupts();

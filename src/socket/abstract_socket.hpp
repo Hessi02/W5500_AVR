@@ -72,6 +72,13 @@ public:
      */
     void send(const char* data);
 
+    /**
+     *  \fn         resetInterrupts(void)
+     *  \brief      Resets the socket's interrupts flags.
+     *  \return     Returns a boolean indicating the success.
+     */
+    bool resetInterrupts(void);
+
 public: /* SIGNALS */
     /**
      *  \fn     eventOccured(void)
@@ -115,8 +122,6 @@ public: /* SIGNALS */
      */
     void messageSent(void);
 
-    unsigned char getINTStatus(void);
-
 protected:
     /**
      *  \fn         enableInterrupts(const unsigned char& interruptMask = 0x1f) 
@@ -154,6 +159,12 @@ protected:
      * communication.
      */
     W5500* _chipInterface = nullptr;
+
+    /**
+     *  \var    _index
+     *  \brief  A 8 bit integer representing the socket's index on the W5500.
+     */
+    uint8_t _index;
 
 private:
     /**
@@ -193,12 +204,6 @@ private:
      *  \param[in]  position passes the pointer's target position.
      */
     void setTXReadPointer(const uint16_t& position);
-
-    /**
-     *  \var    _index
-     *  \brief  A 8 bit integer representing the socket's index on the W5500.
-     */
-    uint8_t _index;
 };
 
 #endif //__ABSTRACT_SOCKET_HPP__

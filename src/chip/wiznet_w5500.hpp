@@ -12,6 +12,7 @@
 
 #include "../address/host_address.hpp"
 #include "../address/mac_address.hpp"
+#include "../callback/callback.hpp"
 #include "../socket/tcp_socket.hpp"
 #include "../socket/udp_socket.hpp"
 
@@ -19,7 +20,7 @@
  *  \class  W5500
  *  \brief  The class represents the Wiznet W5500 chip.
  */
-class W5500 : public SpiDevice
+class W5500 : public SpiDevice, public CallbackInstance
 {
 public:
     /**

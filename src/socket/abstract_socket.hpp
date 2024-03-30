@@ -8,13 +8,17 @@
 
 class W5500;
 
+#include <avr_container.hpp>
 #include <stdint.h>
+
+#include "../callback/callback.hpp"
+#include "../callback/callback_instance.hpp"
 
 /**
  *  \class  AbstractSocket
  *  \brief  The class represents a base class for all socket types.
  */
-class AbstractSocket
+class AbstractSocket : public CallbackInstance
 {
 public:
     /**
@@ -73,11 +77,34 @@ public:
     void send(const char* data);
 
     /**
+     *  \fn         recv(void)
+     *  \brief      Receives new messages from peer.     
+     *  \return     Char array containing the data.
+     */
+    char* recv(void);
+
+    /**
      *  \fn         resetInterrupts(void)
      *  \brief      Resets the socket's interrupts flags.
      *  \return     Returns a boolean indicating the success.
      */
     bool resetInterrupts(void);
+
+    /**
+     *  \fn         addCallbackFunction(void (AbstractSocket::*signal)(void), void (*callbackFunction)(void))
+     *  \brief      Adds the callback function to a specified signal of the socket.
+     *  \param[in]  singal passes the signal to add the callback function to.
+     *  \param[in]  callbackFunction passes the function to call when sinal is emitted.
+     */
+    void addCallbackFunction(void (AbstractSocket::*signal)(void), void (*callbackFunction)(void));
+
+    /**
+     *  \fn         addCallback(void (AbstractSocket::*signal)(void), Callback& callback)
+     *  \brief      Adds the callback instance to a specified signal of the socket.
+     *  \param[in]  singal passes the signal to add the callback function to.
+     *  \param[in]  callback passes the instance to call when signal is emitted.
+     */
+    void addCallback(void (AbstractSocket::*signal)(void), Callback& callback);
 
 public: /* SIGNALS */
     /**
@@ -204,6 +231,12 @@ private:
      *  \param[in]  position passes the pointer's target position.
      */
     void setTXReadPointer(const uint16_t& position);
+
+    Vector<void (*)(void)> _eventOccuredCallbackFunctionList;
+    Vector<Callback> _eventOccuredCallbackInstanceList;
+
+    Vector<void (*)(void)> _receivedMessageCallbackFunctionList;
+    Vector<Callback> _receivedMessageCallbackInstanceList;
 };
 
 #endif //__ABSTRACT_SOCKET_HPP__

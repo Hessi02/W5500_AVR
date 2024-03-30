@@ -100,6 +100,8 @@ void AbstractSocket::send(const char* data)
     sendBuffer();
 }
 
+char* AbstractSocket::recv(void) {}
+
 bool AbstractSocket::resetInterrupts(void)
 {
     constexpr uint16_t SnIRRegisterAddress = 0x0002;
@@ -113,6 +115,31 @@ bool AbstractSocket::resetInterrupts(void)
     return 0x00 == resetResult;
 }
 
+void AbstractSocket::addCallbackFunction(void (AbstractSocket::*signal)(void),
+                                         void (*callbackFunction)(void))
+{
+    if (signal == &AbstractSocket::eventOccured)
+    {
+        _eventOccuredCallbackFunctionList.append(callbackFunction);
+    }
+    else if (signal == &AbstractSocket::receivedMessage)
+    {
+        _receivedMessageCallbackFunctionList.append(callbackFunction);
+    }
+}
+
+void AbstractSocket::addCallback(void (AbstractSocket::*signal)(void), Callback& callback)
+{
+    if (signal == &AbstractSocket::eventOccured)
+    {
+        _eventOccuredCallbackInstanceList.append(callback);
+    }
+    else if (signal == &AbstractSocket::receivedMessage)
+    {
+        _receivedMessageCallbackInstanceList.append(callback);
+    }
+}
+
 void AbstractSocket::enableInterrupts(const unsigned char& interruptMask)
 {
     constexpr uint16_t SnIMRRegisterAddress = 0x002c;
@@ -124,6 +151,16 @@ void AbstractSocket::eventOccured(void)
     unsigned char interruptRegister;
     constexpr uint16_t SnIRRegisterAddress = 0x0002;
     readControlRegister(SnIRRegisterAddress, &interruptRegister, 1);
+
+    for (void (*onEventCallback)(void) : _eventOccuredCallbackFunctionList)
+    {
+        onEventCallback();
+    }
+
+    for (Callback callbackInstance : _eventOccuredCallbackInstanceList)
+    {
+        callbackInstance.fire();
+    }
 
     if (interruptRegister & (1 << 0x00))
         connected();
@@ -148,7 +185,18 @@ void AbstractSocket::connected(void)
 
 void AbstractSocket::disconnected(void) {}
 
-void AbstractSocket::receivedMessage(void) {}
+void AbstractSocket::receivedMessage(void)
+{
+    for (void (*onNewMessageCallbackFunction)(void) : _receivedMessageCallbackFunctionList)
+    {
+        onNewMessageCallbackFunction();
+    }
+
+    for (Callback callbackInstance : _receivedMessageCallbackInstanceList)
+    {
+        callbackInstance.fire();
+    }
+}
 
 void AbstractSocket::timedOut(void) {}
 

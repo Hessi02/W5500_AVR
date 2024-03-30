@@ -1,4 +1,6 @@
 file(GLOB INCLUDE_FILES CONFIGURE_DEPENDS 
+        "src/callback/callback.hpp"
+        "src/callback/callback_instance.hpp"
         "src/address/host_address.hpp"
         "src/address/host_address.cpp"
         "src/address/mac_address.hpp"
@@ -20,6 +22,6 @@ set_target_properties(W5500_AVR PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory("lib")
 
-target_link_libraries(W5500_AVR PUBLIC avr-libstdcpp AVR_SPI)
+target_link_libraries(W5500_AVR PUBLIC avr-libstdcpp AVR_SPI AVR_Container)
 
 target_include_directories(W5500_AVR PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc")

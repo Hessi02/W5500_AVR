@@ -75,6 +75,17 @@ void AbstractSocket::writeBufferRegister(const uint16_t& addressRegister,
     }
 }
 
+void AbstractSocket::readRXBufferRegister(const uint16_t& addressRegister,
+                                          unsigned char* data,
+                                          const uint8_t& length)
+{
+    if (_chipInterface)
+    {
+        const unsigned char controlByte = 0x18 | (_index << 5);
+        _chipInterface->readRegister(addressRegister, controlByte, data, length);
+    }
+}
+
 void AbstractSocket::sendBuffer(void)
 {
     constexpr unsigned char sendBitmask = 0x20;
@@ -92,7 +103,6 @@ void AbstractSocket::send(const char* data)
     }
 
     uint16_t writePointerTX = getTXWritePointer();
-    setTXReadPointer(writePointerTX);
 
     writeBufferRegister(writePointerTX, (unsigned char*) data, iterator);
 
@@ -100,7 +110,28 @@ void AbstractSocket::send(const char* data)
     sendBuffer();
 }
 
-char* AbstractSocket::recv(void) {}
+char* AbstractSocket::recv(void)
+{
+    unsigned char receivedSizeValue[2];
+    constexpr uint16_t SnRXRXRRegisterAddress = 0x0026;
+    readControlRegister(SnRXRXRRegisterAddress, receivedSizeValue, 2);
+
+    const uint16_t receivedByteCount = (static_cast<uint16_t>(receivedSizeValue[0]) << 8)
+                                       + receivedSizeValue[1];
+
+    const uint16_t readPointer = getRXReadPointer();
+
+    unsigned char buffer[receivedByteCount] = {};
+    readRXBufferRegister(readPointer, buffer, receivedByteCount);
+
+    setRXReadPointer(readPointer + receivedByteCount);
+
+    constexpr uint16_t SNCRRegisterAddress = 0x0001;
+    constexpr unsigned char receiveCommand = 0x40;
+    writeControlRegister(SNCRRegisterAddress, &receiveCommand, 1);
+
+    return nullptr;
+}
 
 bool AbstractSocket::resetInterrupts(void)
 {
@@ -205,10 +236,33 @@ void AbstractSocket::messageSent(void) {}
 uint16_t AbstractSocket::getTXWritePointer(void)
 {
     unsigned char lengthArray[2] = {};
-    constexpr uint16_t SnRXWRRegisterAddress = 0x0024;
-    readControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
-
+    constexpr uint16_t SnTXWRRegisterAddress = 0x0024;
+    readControlRegister(SnTXWRRegisterAddress, lengthArray, 2);
     return (static_cast<uint16_t>(lengthArray[0]) << 8) + lengthArray[1];
+}
+
+uint16_t AbstractSocket::getRXReadPointer(void)
+{
+    unsigned char lengthArray[2] = {};
+    constexpr uint16_t SnRXRDRegisterAddress = 0x0028;
+    readControlRegister(SnRXRDRegisterAddress, lengthArray, 2);
+    return (static_cast<uint16_t>(lengthArray[0]) << 8) + lengthArray[1];
+}
+
+uint16_t AbstractSocket::getRXWritePointer(void)
+{
+    unsigned char lengthArray[2] = {};
+    constexpr uint16_t SnRXWRRegisterAddress = 0x002a;
+    readControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
+    return (static_cast<uint16_t>(lengthArray[0]) << 8) + lengthArray[1];
+}
+
+void AbstractSocket::setRXReadPointer(const uint16_t position)
+{
+    const unsigned char lengthArray[2] = {static_cast<unsigned char>((position >> 8) & 0xff),
+                                          static_cast<unsigned char>(position & 0xff)};
+    constexpr uint16_t SnRXRDRegisterAddress = 0x0028;
+    writeControlRegister(SnRXRDRegisterAddress, lengthArray, 2);
 }
 
 void AbstractSocket::setTXWritePointer(const uint16_t& length)
@@ -216,13 +270,5 @@ void AbstractSocket::setTXWritePointer(const uint16_t& length)
     const unsigned char lengthArray[2] = {static_cast<unsigned char>((length >> 8) & 0xff),
                                           static_cast<unsigned char>(length & 0xff)};
     constexpr uint16_t SnRXWRRegisterAddress = 0x0024;
-    writeControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
-}
-
-void AbstractSocket::setTXReadPointer(const uint16_t& length)
-{
-    const unsigned char lengthArray[2] = {static_cast<unsigned char>((length >> 8) & 0xff),
-                                          static_cast<unsigned char>(length & 0xff)};
-    constexpr uint16_t SnRXWRRegisterAddress = 0x0022;
     writeControlRegister(SnRXWRRegisterAddress, lengthArray, 2);
 }

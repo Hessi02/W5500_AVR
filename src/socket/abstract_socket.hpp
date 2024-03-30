@@ -211,6 +211,10 @@ private:
                              const unsigned char* data,
                              const uint8_t& length);
 
+    void readRXBufferRegister(const uint16_t& addressRegister,
+                              unsigned char* data,
+                              const uint8_t& length);
+
     /**
      *  \fn     readTXBufferPointer(void)
      *  \brief  Reads the pointer on the data in the SNTxBuffer.
@@ -218,19 +222,18 @@ private:
      */
     uint16_t getTXWritePointer(void);
 
+    uint16_t getRXReadPointer(void);
+
+    uint16_t getRXWritePointer(void);
+
+    void setRXReadPointer(const uint16_t position);
+
     /**
      *  \fn         setTXWritePointer(const uint16_t& length)
      *  \brief      Specifies the pointer on the data in the SnTX buffer.
      *  \param[in]  position passes the pointer's target position.
      */
     void setTXWritePointer(const uint16_t& position);
-
-    /**
-     *  \fn         getTXReadPointer(const uint16_t& length)
-     *  \brief      Specifies the pointer on the data in the SnTX read buffer.
-     *  \param[in]  position passes the pointer's target position.
-     */
-    void setTXReadPointer(const uint16_t& position);
 
     Vector<void (*)(void)> _eventOccuredCallbackFunctionList;
     Vector<Callback> _eventOccuredCallbackInstanceList;

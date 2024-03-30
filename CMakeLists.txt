@@ -7,8 +7,6 @@ file(GLOB INCLUDE_FILES CONFIGURE_DEPENDS
         "src/address/mac_address.cpp"
         "src/chip/wiznet_w5500.hpp" 
         "src/chip/wiznet_w5500.cpp"
-        "src/chip/interface.hpp"
-        "src/chip/interface.cpp"
         "src/socket/abstract_socket.hpp"
         "src/socket/abstract_socket.cpp"
         "src/socket/tcp_socket.hpp"
